@@ -45,6 +45,7 @@ import org.springframework.core.AliasRegistry;
  * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
  * @see PropertiesBeanDefinitionReader
  */
+// bean定义注册
 public interface BeanDefinitionRegistry extends AliasRegistry {
 
 	/**
@@ -59,6 +60,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @see RootBeanDefinition
 	 * @see ChildBeanDefinition
 	 */
+	// 注册bean定义
 	void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException;
 
@@ -67,6 +69,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @param beanName the name of the bean instance to register
 	 * @throws NoSuchBeanDefinitionException if there is no such bean definition
 	 */
+	// 删除bean定义
 	void removeBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
 	/**
@@ -75,6 +78,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @return the BeanDefinition for the given name (never {@code null})
 	 * @throws NoSuchBeanDefinitionException if there is no such bean definition
 	 */
+	// 获取bean定义
 	BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
 	/**
@@ -82,6 +86,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @param beanName the name of the bean to look for
 	 * @return if this registry contains a bean definition with the given name
 	 */
+	// 是否包含bean定义
 	boolean containsBeanDefinition(String beanName);
 
 	/**
@@ -89,12 +94,14 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @return the names of all beans defined in this registry,
 	 * or an empty array if none defined
 	 */
+	// 获取所有bean定义的名称
 	String[] getBeanDefinitionNames();
 
 	/**
 	 * Return the number of beans defined in the registry.
 	 * @return the number of beans defined in the registry
 	 */
+	// 获取bean定义总数
 	int getBeanDefinitionCount();
 
 	/**
@@ -103,6 +110,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	 * @param beanName the name to check
 	 * @return whether the given bean name is already in use
 	 */
+	// 确定给定的b​​ean名称是否已在此注册表中使用
 	boolean isBeanNameInUse(String beanName);
 
 }

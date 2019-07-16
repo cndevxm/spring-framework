@@ -733,12 +733,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
+		// 把所有的bean定义信息名称，赋值到一个新的集合中
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
 		// Trigger initialization of all non-lazy singleton beans...
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+			// 不是抽象类&&是单例类&&不是懒加载
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+				// 这是Spring提供的对工程bean模式的支持：比如第三方框架的继承经常采用这种方式
+				// 如果是工厂Bean，那就会将此工厂Bean放进去
 				if (isFactoryBean(beanName)) {
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
@@ -759,12 +763,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					}
 				}
 				else {
+					// 普通bean
 					getBean(beanName);
 				}
 			}
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
+		// SmartInitializingSingleton：所有非lazy单例Bean实例化完成后的回调方法 Spring4.1才提供
+		// SmartInitializingSingleton的afterSingletonsInstantiated方法是在所有单例bean都已经被创建后执行的
+		// InitializingBean#afterPropertiesSet 是在仅仅自己被创建好了执行的
+		// 比如EventListenerMethodProcessor它在afterSingletonsInstantiated方法里就去处理所有的Bean的方法
+		// 看看哪些被标注了@EventListener注解，提取处理也作为一个Listener放到容器addApplicationListener里面去
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {

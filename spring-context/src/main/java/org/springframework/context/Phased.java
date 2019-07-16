@@ -29,6 +29,7 @@ public interface Phased {
 	/**
 	 * Return the phase value of this object.
 	 */
+	// 权重值
 	int getPhase();
 
 }

@@ -92,6 +92,8 @@ public interface ConfigurableWebApplicationContext extends WebApplicationContext
 	 * <p>If not set, the implementation is supposed to use a default for the
 	 * given namespace or the root web application context, as appropriate.
 	 */
+
+	// 配置文件路径
 	void setConfigLocation(String configLocation);
 
 	/**
@@ -99,6 +101,8 @@ public interface ConfigurableWebApplicationContext extends WebApplicationContext
 	 * <p>If not set, the implementation is supposed to use a default for the
 	 * given namespace or the root web application context, as appropriate.
 	 */
+
+	// 多个配置文件
 	void setConfigLocations(String... configLocations);
 
 	/**

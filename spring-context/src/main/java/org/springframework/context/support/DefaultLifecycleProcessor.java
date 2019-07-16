@@ -119,6 +119,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 
 	@Override
 	public void onRefresh() {
+		// 默认执行实现了SmartLifecycle接口并且isAutoStartup = true的Bean的start方法
 		startBeans(true);
 		this.running = true;
 	}
@@ -137,10 +138,19 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 
 	// Internal helpers
 
+	// autoStartupOnly：是否仅支持自动启动
+	// true：只支持伴随容器启动 （bean必须实现了`SmartLifecycle`接口且isAutoStartup为true才行）
+	// false：表示无所谓。都会执行bean的start方法=======
 	private void startBeans(boolean autoStartupOnly) {
+		//拿到所有的实现了Lifecycle/SmartLifecycle的  已经在IOC容器里面的单例Bean们（备注：不包括自己this，也就是说处理器自己不包含进去）
+		// 这里若我们自己没有定义过实现Lifecycle的Bean，这里就是空的
 		Map<String, Lifecycle> lifecycleBeans = getLifecycleBeans();
+
+		// phases 这个Map，表示按照phase 值，吧这个Bean进行分组，最后分组执行
 		Map<Integer, LifecycleGroup> phases = new HashMap<>();
 		lifecycleBeans.forEach((beanName, bean) -> {
+
+			// 若Bean实现了SmartLifecycle 接口并且标注是AutoStartup  或者  强制要求自动自行的autoStartupOnly = true
 			if (!autoStartupOnly || (bean instanceof SmartLifecycle && ((SmartLifecycle) bean).isAutoStartup())) {
 				int phase = getPhase(bean);
 				LifecycleGroup group = phases.get(phase);
@@ -148,11 +158,13 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 					group = new LifecycleGroup(phase, this.timeoutPerShutdownPhase, lifecycleBeans, autoStartupOnly);
 					phases.put(phase, group);
 				}
+				// 添加到phase 值相同的组  分组嘛
 				group.add(beanName, bean);
 			}
 		});
 		if (!phases.isEmpty()) {
 			List<Integer> keys = new ArrayList<>(phases.keySet());
+			// 此处有个根据key从小到大的排序，然后一个个的调用他们的start方法
 			Collections.sort(keys);
 			for (Integer key : keys) {
 				phases.get(key).start();
@@ -355,6 +367,8 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 			if (logger.isInfoEnabled()) {
 				logger.info("Starting beans in phase " + this.phase);
 			}
+
+			// 按照权重值进行排序  若没有实现Smart接口的  权重值都为0
 			Collections.sort(this.members);
 			for (LifecycleGroupMember member : this.members) {
 				doStart(this.lifecycleBeans, member.name, this.autoStartupOnly);
