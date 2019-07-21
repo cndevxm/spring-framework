@@ -3,13 +3,14 @@ package com.cndevxm;
 import com.cndevxm.entity.Teacher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class Client {
+public class AnnotationClient {
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
-		annotationConfigApplicationContext.register(Teacher.class);
+		annotationConfigApplicationContext.registerBean("teacher", Teacher.ChineseTeacher.class);
 		annotationConfigApplicationContext.refresh();
-		Teacher teacher = (Teacher) annotationConfigApplicationContext.getBean("teacher");
+		Teacher.ChineseTeacher teacher = (Teacher.ChineseTeacher) annotationConfigApplicationContext.getBean("teacher");
 		System.out.println(teacher);
+		System.out.println(annotationConfigApplicationContext.getBeanDefinition("teacher").getBeanClassName());
 	}
 }

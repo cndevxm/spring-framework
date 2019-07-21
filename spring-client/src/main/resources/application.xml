@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 普通bean -->
+	<bean id="teacher" name="teacher" class="com.cndevxm.entity.Teacher"/>
+
+	<!-- 内部静态类bean 类的别名 -->
+	<bean id="chineseTeacher" name="chineseTeacher cTeacher" class="com.cndevxm.entity.Teacher$ChineseTeacher"/>
+
+	<!-- 静态工厂方法 -->
+	<bean id="entityStaticFactoryTeacher" name="entityStaticFactoryTeacher"
+		  class="com.cndevxm.entity.factory.EntityStaticFactory" factory-method="createTeacher"/>
+
+	<!-- 实例工厂方法 -->
+	<bean id="entityFactory" name="entityFactory" class="com.cndevxm.entity.factory.EntityFactory"/>
+	<bean id="entityFactoryTeacher" name="entityFactoryTeacher" factory-bean="entityFactory"
+		  factory-method="createTeacher"/>
+
+	<bean id="house" name="house" class="com.cndevxm.entity.House"/>
+	<bean id="account" name="account" class="com.cndevxm.entity.Account"/>
+	<bean id="firstCar" name="firstCar" class="com.cndevxm.entity.Car"/>
+
+	<!-- 构造器注入
+    先通过反射机制获取到构造器数组 对数组进行先公共后参数数量的排序（jdk反射获取到的构造器数组是乱序，所以最先声明的有可能不是最上边的）
+    通过index位置匹配(没有匹配到报错)
+    index匹配到多个时 或者 没有配置index属性
+        直接匹配第一个参数数量与参数类型匹配的构造器 -->
+	<bean id="constructTeacher1" name="constructTeacher1" class="com.cndevxm.entity.Teacher">
+		<!-- 通过ref属性注入实例 也就是注入bean 非线程安全 一处修改 其他处也会被影响 且被使用bean的配置顺序可以是当前bean的后边 说明spring是先初始化bean再进行装配 -->
+		<constructor-arg ref="house"/>
+		<constructor-arg ref="account"/>
+		<!-- 通过type属性注入实例 类会被实例化但是不会注册成bean 且通过value属性设置调用对应构造函数进行实例化 name属性和index属性可以混用 且index属性可以不用全部配置 如果构造器使用了@ConstructorProperties注解 则name名称要不不配置别名要不全部配置别名 否则报错-->
+		<constructor-arg type="com.cndevxm.entity.Car" value="奔驰" name="sC"/>
+		<constructor-arg type="com.cndevxm.entity.Car" value="宝马" name="fC"/>
+		<!-- 基本类型注入 -->
+		<constructor-arg type="int" value="123" index="1"/>
+		<constructor-arg type="java.lang.String" value="张三"/>
+	</bean>
+
+	<!-- setter注入 -->
+	<bean id="constructTeacher2" name="constructTeacher2" class="com.cndevxm.entity.Teacher">
+		<!-- 注入现有的bean 通过ref元素 -->
+		<property name="firstCar">
+			<ref bean="firstCar"/>
+		</property>
+		<!-- 不用注册成bean -->
+		<property name="secondCar">
+			<!-- 内置bean 没有id 不会被注册 -->
+			<bean class="com.cndevxm.entity.Car"/>
+		</property>
+		<!-- 注入现有的bean 通过ref属性 -->
+		<property name="house" ref="house"/>
+		<property name="name" value="李四"/>
+	</bean>
+
+	<!-- 静态工厂方法 基于构造器的依赖注入
+		先通过反射机制获取到所有方法 再筛选出静态的工厂方法数组 对数组进行先公共后参数数量的排序（jdk反射获取到的方法数组是乱序，所以最先声明的有可能不是最上边的）
+		通过index位置匹配(没有匹配到报错)
+		index匹配到多个时 或者 没有配置index属性
+			直接匹配第一个参数数量与参数类型匹配的函数 -->
+	<bean id="entityStaticFactoryTeacher1" name="entityStaticFactoryTeacher1"
+		  class="com.cndevxm.entity.factory.EntityStaticFactory" factory-method="createTeacher">
+		<constructor-arg type="java.lang.String" value="静态工厂"/>
+		<constructor-arg ref="house" index="0"/>
+		<constructor-arg ref="account"/>
+		<constructor-arg type="com.cndevxm.entity.Car" value="奔驰" name="firstCar"/>
+		<constructor-arg type="com.cndevxm.entity.Car" value="宝马" name="secondCar"/>
+		<constructor-arg type="int" value="123"/>
+	</bean>
+
+	<!-- 实例工厂方法 基于构造器的依赖注入 -->
+	<!--	<bean id="entityFactoryTeacher1" name="entityFactoryTeacher1" factory-bean="entityFactory"-->
+	<!--		  factory-method="createTeacher">-->
+	<!--		<constructor-arg ref="house"/>-->
+	<!--		<constructor-arg ref="account"/>-->
+	<!--		<constructor-arg type="com.cndevxm.entity.Car" value="奔驰" name="secondCar"/>-->
+	<!--		<constructor-arg type="com.cndevxm.entity.Car" value="宝马" name="firstCar"/>-->
+	<!--		<constructor-arg type="int" value="123"/>-->
+	<!--		<constructor-arg type="java.lang.String" value="实例工厂"/>-->
+	<!--	</bean>-->
+
+</beans>
