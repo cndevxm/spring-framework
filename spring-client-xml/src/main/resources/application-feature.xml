@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+	<!-- bfpp与bpp实例化与使用流程 -->
+	<!--
+		1、解析XML获取BeanDefinition
+		2、创建bfpp实例
+		3、调用bfpp的postProcessBeanFactory方法
+		4、创建bpp实例
+		5、bean实例化与装配依赖
+		6、调用bpp的postProcessBeforeInitialization方法
+		7、bean初始化
+		8、调用bpp的postProcessAfterInitialization方法
+		9、调用close()方法
+		10、调用销毁方法
+	-->
+
+	<!-- 新建close -->
+	<!--	<bean id="myClose1" name="MyClose1" class="com.cndevxm.closes.MyClose1"/>-->
+	<!--	<bean id="myClose2" name="MyClose2" class="com.cndevxm.closes.MyClose2"/>-->
+
+	<!-- 新建bpp 也可以通过ConfigurableBeanFactory中的addBeanPostProcessor方法进行注册-->
+	<!--	<bean id="busBpp" name="busBpp" class="com.cndevxm.beanPostProcessors.BusBPP"/>-->
+
+	<!-- 新建bfpp 也可以通过ConfigurableApplicationContext中的addBeanFactoryPostProcessor方法进行注册-->
+	<!--	<bean id="myBFPP" name="myBFPP" class="com.cndevxm.beanFactoryPostProcessors.MyBeanFactoryPostProcessor"/>-->
+
+	<!-- 国际化 -->
+	<!-- 通过J2EE的ResourceBundle实现 -->
+	<!-- 加载国际化配置文件 -->
+	<bean id="messageSource" name="messageSource"
+		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:i18n</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="gbk"/>
+		<!-- 当从Locale获取不到信息时 true从defaultLocale中获取 false从基类文件获取 -->
+		<property name="fallbackToSystemLocale" value="true"/>
+	</bean>
+
+	<!-- 事件定义与发布 -->
+	<!-- 系统事件监听 -->
+	<bean id="refreshedEventListener" name="refreshedEventListener"
+		  class="com.cndevxm.event.ApplicationEventListener$ContextRefreshedEventListener"/>
+	<bean id="closedEventListener" name="closedEventListener"
+		  class="com.cndevxm.event.ApplicationEventListener$ContextClosedEventListener"/>
+	<bean id="startedEventListener" name="startedEventListener"
+		  class="com.cndevxm.event.ApplicationEventListener$ContextStartedEventListener"/>
+	<bean id="stoppedEventListener" name="stoppedEventListener"
+		  class="com.cndevxm.event.ApplicationEventListener$ContextStoppedEventListener"/>
+
+	<!-- 自定义事件 继承ApplicationEvent类 -->
+	<!-- 自定义监听 实现ApplicationListener接口 -->
+	<bean id="busListener" name="busListener" class="com.cndevxm.event.BusListener"/>
+	<bean id="busListener1" name="busListener1" class="com.cndevxm.event.BusListener1"/>
+	<bean id="busListener2" name="busListener2" class="com.cndevxm.event.BusListener2"/>
+	<!-- 自定义发布 通过applicationEventPublisher发布事件-->
+	<bean id="busPublisher" name="busPublisher" class="com.cndevxm.event.BusPublisher"/>
+
+	<!-- 可以使用返参确定另一个事件的发布 基于注解 -->
+	<!-- 同步监听与异步监听 -->
+	<!-- 同步监听 监听器是使用同一个线程 必须等前边的事件所有监听器处理完之后才会处理下个事件 异步监听是多个线程 事件处理各不影响 -->
+
+</beans>

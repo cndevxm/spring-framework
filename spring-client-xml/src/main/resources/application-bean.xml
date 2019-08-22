@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:c="http://www.springframework.org/schema/c"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd"
+	   default-lazy-init="false"
+	   default-init-method="init"
+	   default-destroy-method="des"
+	   default-autowire="no"
+	   default-autowire-candidates="default"
+	   default-merge="false"
+>
+
+	<!-- id与name属性都表示该bean的标识符，区别是id只能设置一个，name可以设置多个，默认取id为bean的唯一标识其他为别名-->
+	<!-- 普通实例化的bean 默认为单例域-->
+	<bean id="car" name="car" class="com.cndevxm.entity.Car"/>
+
+	<!-- 内部静态类bean -->
+	<bean id="oldCar" name="oldCar" class="com.cndevxm.entity.Car$OldCar"/>
+
+	<!-- 静态工厂方法 -->
+	<bean id="ford" name="ford"
+		  class="com.cndevxm.entity.factory.CarStaticFactory" factory-method="createFordCar"/>
+
+	<!-- 实例工厂方法 -->
+	<bean id="buickCarFactory" name="buickCarFactory" class="com.cndevxm.entity.factory.CarFactory"/>
+	<bean id="buick" name="buick" factory-bean="buickCarFactory"
+		  factory-method="createBuickCar"/>
+
+	<!-- 通过alise注解或者name属性通过 空格 , ; 进行别名设置 -->
+	<bean id="highRise" name="highRise gc" class="com.cndevxm.entity.House" p:type="highRise"/>
+
+	<bean id="bungalow" name="bungalow" class="com.cndevxm.entity.House" p:type="bungalow"/>
+	<alias name="bungalow" alias="yf"/>
+
+	<!-- 抽象bean 并不进行实例化 只能用来继承 -->
+	<bean id="modleHouse" name="modleHouse" class="com.cndevxm.entity.House" abstract="true">
+		<!-- 对Properties类型的参数进行值设置 只能设置字面量-->
+		<property name="properties">
+			<props>
+				<prop key="brand">万科地产</prop>
+				<prop key="englishName">vanke</prop>
+			</props>
+		</property>
+		<!-- 对Set类型的参数进行值设置 -->
+		<property name="set">
+			<set>
+				<value>恒大地产</value>
+				<ref bean="gc"></ref>
+			</set>
+		</property>
+		<!-- 对List类型的参数进行值设置 -->
+		<property name="list">
+			<list>
+				<value>碧桂园地产</value>
+				<ref bean="gc"></ref>
+			</list>
+		</property>
+		<!-- 对Map类型的参数进行值设置 -->
+		<property name="map">
+			<map>
+				<entry key="brand" value-type="java.lang.String" value="万达地产"/>
+				<entry key="house" value-ref="yf"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- 使用parent属性进行属性继承 -->
+	<!-- 使用merge属性对继承的属性进行处理，如果merge属性为false，则直接使用子类属性，如果merge属性为true，则merge父bean属性 -->
+	<bean id="testHouse" name="testHouse" parent="modleHouse">
+		<property name="properties">
+			<props merge="false">
+				<prop key="brand">万科集团</prop>
+				<prop key="type">test</prop>
+			</props>
+		</property>
+		<property name="set">
+			<set merge="false">
+				<value>恒大集团</value>
+			</set>
+		</property>
+		<property name="list">
+			<list merge="false">
+				<value>碧桂园集团</value>
+			</list>
+		</property>
+		<property name="map">
+			<map merge="false">
+				<entry key="brand" value-type="java.lang.String" value="万达集团"/>
+				<entry key="type" value-type="java.lang.String" value="test"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- p标签与c标签的使用 -->
+	<!-- 候选者与primary属性 -->
+	<!-- autowire-candidate为true + primary的优先级最高 其此是autowire-candidate为true的bean 切记所有bean默认为true -->
+	<bean id="amg" name="amg" class="com.cndevxm.entity.Car" p:brand="benz" p:style="car" autowire-candidate="true"/>
+	<bean id="v" name="v" class="com.cndevxm.entity.Car" p:brand="benz" p:style="business"/>
+	<bean id="bwm3" name="bwm3" class="com.cndevxm.entity.Car" c:brand="bmw" c:style="car"/>
+	<bean id="bwm5" name="bwm5" class="com.cndevxm.entity.Car" c:_0="bmw" c:_1="car"/>
+	<bean id="bwm7" name="bwm7" class="com.cndevxm.entity.Car" c:brand="bmw" c:style="car" autowire-candidate="true"
+		  primary="true"/>
+
+	<!-- 显示注入 cp标签的使用 -->
+	<!-- 通过p命名空间简化XML<property/>标签配置可以与<property/>标签混用，且p标签的优先级高于<property/>的优先级 -->
+	<!-- 通过c命名空间简化XML<constructor-arg/>属性配置可以与<constructor-arg/>标签混用，但是不能重复注入这点与p标签不同，可以通过索引进行依赖注入 -->
+	<!-- 构造器注入
+	先通过反射机制获取到构造器数组 对数组进行先公共后参数数量的排序（jdk反射获取到的构造器数组是乱序，所以最先声明的有可能不是最上边的）
+	通过index位置匹配(类型匹配,没有匹配到报错)
+	index匹配到多个时 或者 没有配置index属性
+		直接匹配第一个参数数量与参数类型匹配的构造器 -->
+	<bean id="chineseTeacher" name="chineseTeacher" class="com.cndevxm.entity.Teacher">
+		<!-- 通过ref属性注入实例 也就是注入bean 非线程安全 一处修改 其他处也会被影响 且被使用bean的配置顺序可以是当前bean的后边 -->
+		<constructor-arg ref="amg"/>
+		<!-- 通过type属性注入实例 类会被实例化但是不会注册成bean 且通过value属性设置调用对应构造函数进行实例化 name属性和index属性可以混用 且index属性可以不用全部配置 如果构造器使用了@ConstructorProperties注解 则name名称要不不配置别名要不全部配置别名 否则报错-->
+		<constructor-arg type="com.cndevxm.entity.House" value="万科城四期"/>
+		<!-- 基本类型注入 -->
+		<constructor-arg type="int" value="24"/>
+		<constructor-arg type="java.lang.String" value="中文"/>
+		<constructor-arg type="java.lang.String" value="张三" index="0"/>
+	</bean>
+
+	<!-- setter注入 -->
+	<!-- 通过 <idref>标签获取bean的name -->
+	<bean id="englishTeacher" name="englishTeacher" class="com.cndevxm.entity.Teacher">
+		<!-- 注入现有的bean 通过ref元素 -->
+		<property name="car">
+			<ref bean="amg"/>
+		</property>
+		<!-- 不用注册成bean -->
+		<property name="house">
+			<!-- 内置bean 没有id 不会被注册 -->
+			<bean class="com.cndevxm.entity.House">
+				<constructor-arg name="address" value="万科城五期"/>
+			</bean>
+		</property>
+		<!-- 注入现有的bean 通过ref属性 -->
+		<property name="age" value="25"/>
+		<property name="name" value="李四"/>
+		<property name="subject" value="英语"/>
+	</bean>
+
+	<!-- 静态工厂方法
+		先通过反射机制获取到所有方法 再筛选出静态的工厂方法数组 对数组进行先公共后参数数量的排序（jdk反射获取到的方法数组是乱序，所以最先声明的有可能不是最上边的）
+		通过index位置匹配(没有匹配到报错)
+		index匹配到多个时 或者 没有配置index属性
+			直接匹配第一个参数数量与参数类型匹配的函数 -->
+	<bean id="peTeacher" name="peTeacher"
+		  class="com.cndevxm.entity.factory.TeacherStaticFactory" factory-method="createPETeacher"
+		  c:_1="30" c:name="王五" c:subject="体育" c:_3-ref="testHouse" c:_4-ref="bwm3">
+	</bean>
+
+	<!-- 实例工厂方法
+	先通过反射机制获取到所有方法 再筛选出工厂方法数组 对数组进行先公共后参数数量的排序（jdk反射获取到的方法数组是乱序，所以最先声明的有可能不是最上边的）
+	通过index位置匹配(没有匹配到报错)
+	index匹配到多个时 或者 没有配置index属性
+		直接匹配第一个参数数量与参数类型匹配的函数 -->
+	<bean id="tracherFactory" name="tracherFactory" class="com.cndevxm.entity.factory.TracherFactory"/>
+	<bean id="mathTeacher" name="mathTeacher" factory-bean="tracherFactory"
+		  factory-method="createMathTeacher" c:house-ref="testHouse">
+		<constructor-arg ref="amg"/>
+		<constructor-arg type="int" value="24"/>
+		<constructor-arg type="java.lang.String" value="数学"/>
+		<constructor-arg type="java.lang.String" value="赵六" index="0"/>
+	</bean>
+
+	<!-- 继承与依赖 -->
+	<!-- 使用depend-on属性，使该类在初始化之前提前对依赖的bean进行实例化和初始化 -->
+
+	<!-- 懒加载 -->
+	<!-- 通过lazy-init属性设置懒加载 -->
+
+	<!-- 自动装配 -->
+	<!-- 基于名称自动装配 -->
+	<!-- 根据名称装配，先判断是否有set()方法，没有的话不执行装配，有的话通过名字查找bean，找到注入，找不到不注入 -->
+	<bean id="研发部" name="研发部" class="com.cndevxm.entity.Department" autowire="byName" p:level="3"/>
+
+	<!-- 基于类型自动装配 -->
+	<!-- 根据类型装配，先判断是否有set()方法，没有的话不执行装配，有的话通过类型查找bean，找到单个bean注入，找到多个bean报错，找不到不注入 -->
+	<bean id="测试部" name="测试部" class="com.cndevxm.entity.Department" autowire="byType" p:level="3"/>
+
+	<!-- 基于构造器自动装配 -->
+	<!-- 根据构造器类型，有无参构造器先调用无参构造器不执行装配，存在多个有参构造器随机执行一个，通过参数类型查找bean，找不到报错，找到多个bean通过id或者name名称匹配参数名称（spring不可能出现一个bean的id和另外一个bean的name相同），匹配不到报错 -->
+	<bean id="产品部" name="产品部" class="com.cndevxm.entity.Department" autowire="constructor" p:level="3"/>
+
+	<!-- 生命周期 -->
+	<!-- 调用@PostConstruct、@PreDestroy与afterPropertiesSet()、destroy()与基于XML的init-method(等价于@Bean的initMethod属性)、destrop-method(等价于@Bean的destroyMethod属性)方法与实现Closeable接口或者AutoCloseable接口的close()方法的执行优先级问题：
+		- close()销毁方法优先级最高、JSR-250先执行、spring的生命周期回调后执行、基于XML或者基于注解的配置最后执行
+		- 如果bean为原型域则他的任何的销毁的生命周期函数都不会被调用，`close()`方法除外 -->
+	<!-- 若想使用@PostConstruct、@PreDestroy注解，必须配置注解扫描-->
+	<bean id="182" name="182" class="com.cndevxm.entity.Bus" scope="prototype" p:busName="182"
+		  autowire-candidate="false"/>
+	<bean id="b12" name="b12" class="com.cndevxm.entity.Bus" scope="prototype" p:busName="B28"
+		  autowire-candidate="false"/>
+	<!--	<bean id="zzzxy" name="zzzxy" class="com.cndevxm.entity.Bus" p:busName="db" autowire-candidate="true" init-method="init" destroy-method="des"/>-->
+
+	<!-- 方法注入 解决单例bean调用原型bean -->
+	<bean id="河南分公司" name="河南分公司" class="com.cndevxm.entity.Department" p:level="2" p:name="河南分公司">
+		<lookup-method name="createBus" bean="182"/>
+	</bean>
+
+	<bean id="busReplacer" name="busReplacer" class="com.cndevxm.utils.BusReplacer"/>
+	<bean id="河北分公司" name="河北分公司" class="com.cndevxm.entity.Department" p:level="2" p:name="河北分公司">
+		<replaced-method name="createBus" replacer="busReplacer"/>
+	</bean>
+
+	<!-- profile -->
+	<beans profile="dev">
+		<bean id="company" name="company" class="com.cndevxm.entity.Company" p:name="研发环境公司"/>
+	</beans>
+	<beans profile="test">
+		<bean id="company" name="company" class="com.cndevxm.entity.Company" p:name="测试环境公司"/>
+	</beans>
+	<beans profile="prod">
+		<bean id="company" name="company" class="com.cndevxm.entity.Company" p:name="生产环境公司"/>
+	</beans>
+
+</beans>
