@@ -16,8 +16,6 @@
 
 package org.springframework.format.number;
 
-import java.util.Set;
-
 import org.springframework.context.support.EmbeddedValueResolutionSupport;
 import org.springframework.format.AnnotationFormatterFactory;
 import org.springframework.format.Formatter;
@@ -28,6 +26,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Set;
+
 /**
  * Formats fields annotated with the {@link NumberFormat} annotation.
  *
@@ -35,6 +35,8 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @since 3.0
  * @see NumberFormat
+ *
+ * 对@NumberFormat注解标注的属性进行格式化
  */
 public class NumberFormatAnnotationFormatterFactory extends EmbeddedValueResolutionSupport
 		implements AnnotationFormatterFactory<NumberFormat> {

@@ -34,6 +34,7 @@ package org.springframework.beans.factory;
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
  * @see org.springframework.context.ConfigurableApplicationContext#close()
  */
+// spring 生命周期
 public interface DisposableBean {
 
 	/**

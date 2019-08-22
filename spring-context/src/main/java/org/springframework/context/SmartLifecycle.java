@@ -90,6 +90,7 @@ public interface SmartLifecycle extends Lifecycle, Phased {
 	 * @see #stop()
 	 * @see #getPhase()
 	 */
+
 	// 增加回调函数
 	void stop(Runnable callback);
 

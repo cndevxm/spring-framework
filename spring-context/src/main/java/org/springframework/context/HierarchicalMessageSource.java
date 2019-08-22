@@ -24,6 +24,8 @@ import org.springframework.lang.Nullable;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
+ *
+ * 分级国际化
  */
 public interface HierarchicalMessageSource extends MessageSource {
 

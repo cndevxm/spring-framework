@@ -31,6 +31,8 @@ import org.springframework.lang.Nullable;
  * @see ObjectError
  * @see FieldError
  * @see org.springframework.context.MessageSourceResolvable#getCodes()
+ *
+ * 对MessageCode 进行处理
  */
 public interface MessageCodesResolver {
 

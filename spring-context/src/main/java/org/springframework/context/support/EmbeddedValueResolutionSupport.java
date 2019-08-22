@@ -26,6 +26,8 @@ import org.springframework.util.StringValueResolver;
  *
  * @author Juergen Hoeller
  * @since 4.1
+ *
+ * 对字符串进行解析
  */
 public class EmbeddedValueResolutionSupport implements EmbeddedValueResolverAware {
 

@@ -18,7 +18,6 @@ package org.springframework.validation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -36,6 +35,8 @@ import org.springframework.util.StringUtils;
  * @since 06.05.2003
  * @see Validator
  * @see Errors
+ *
+ * spring validation 提供的工具类
  */
 public abstract class ValidationUtils {
 

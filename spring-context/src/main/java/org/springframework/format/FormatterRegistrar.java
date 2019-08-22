@@ -23,6 +23,8 @@ import org.springframework.core.convert.converter.Converter;
  *
  * @author Keith Donald
  * @since 3.1
+ *
+ * 拓展FormatterRegistry SPI 功能
  */
 public interface FormatterRegistrar {
 

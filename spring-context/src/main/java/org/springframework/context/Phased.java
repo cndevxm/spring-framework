@@ -29,7 +29,11 @@ public interface Phased {
 	/**
 	 * Return the phase value of this object.
 	 */
+
 	// 权重值
+	// 启动时 低值先运行
+	// 停止时 高值先运行
+	// 默认设置为0
 	int getPhase();
 
 }

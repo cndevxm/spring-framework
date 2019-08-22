@@ -25,6 +25,8 @@ import java.util.Locale;
  * @author Keith Donald
  * @since 3.0
  * @param <T> the type of object this Parser produces
+ *
+ * 将String转换为target类型
  */
 @FunctionalInterface
 public interface Parser<T> {

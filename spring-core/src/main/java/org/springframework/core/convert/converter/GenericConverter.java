@@ -16,11 +16,11 @@
 
 package org.springframework.core.convert.converter;
 
-import java.util.Set;
-
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.util.Set;
 
 /**
  * Generic converter interface for converting between two or more types.
@@ -44,6 +44,8 @@ import org.springframework.util.Assert;
  * @see Converter
  * @see ConverterFactory
  * @see ConditionalConverter
+ *
+ * 通用的类型转换器
  */
 public interface GenericConverter {
 
@@ -52,6 +54,8 @@ public interface GenericConverter {
 	 * <p>Each entry is a convertible source-to-target type pair.
 	 * <p>For {@link ConditionalConverter conditional converters} this method may return
 	 * {@code null} to indicate all source-to-target pairs should be considered.
+	 *
+	 * 返回支持的source与target对
 	 */
 	@Nullable
 	Set<ConvertiblePair> getConvertibleTypes();

@@ -24,6 +24,8 @@ import java.util.EventObject;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
+ *
+ * 应用事件
  */
 public abstract class ApplicationEvent extends EventObject {
 

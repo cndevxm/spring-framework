@@ -63,6 +63,10 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @see Errors
  * @see ValidationUtils
+ *
+ * 数据校验接口，提供两个接口
+ * 一个是支持校验的类型
+ * 一个是校验是否通过
  */
 public interface Validator {
 
@@ -78,6 +82,8 @@ public interface Validator {
 	 * @return {@code true} if this {@link Validator} can indeed
 	 * {@link #validate(Object, Errors) validate} instances of the
 	 * supplied {@code clazz}
+	 *
+	 * 限定对某些类的校验
 	 */
 	boolean supports(Class<?> clazz);
 
@@ -90,6 +96,8 @@ public interface Validator {
 	 * @param target the object that is to be validated (can be {@code null})
 	 * @param errors contextual state about the validation process (never {@code null})
 	 * @see ValidationUtils
+	 *
+	 * 校验的实现方式
 	 */
 	void validate(@Nullable Object target, Errors errors);
 

@@ -31,21 +31,29 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
  * @since 2.0
  * @see org.springframework.beans.factory.annotation.Configurable
  * @see org.springframework.beans.factory.config.AutowireCapableBeanFactory
+ *
+ * 自动装配类型的枚举
  */
 public enum Autowire {
 
 	/**
 	 * Constant that indicates no autowiring at all.
+	 *
+	 * 不使用自动装配
 	 */
 	NO(AutowireCapableBeanFactory.AUTOWIRE_NO),
 
 	/**
 	 * Constant that indicates autowiring bean properties by name.
+	 *
+	 * 使用基于名称的自动装配
 	 */
 	BY_NAME(AutowireCapableBeanFactory.AUTOWIRE_BY_NAME),
 
 	/**
 	 * Constant that indicates autowiring bean properties by type.
+	 *
+	 * 使用基于类型的自动装配
 	 */
 	BY_TYPE(AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE);
 
@@ -65,6 +73,8 @@ public enum Autowire {
 	 * Return whether this represents an actual autowiring value.
 	 * @return whether actual autowiring was specified
 	 * (either BY_NAME or BY_TYPE)
+	 *
+	 * 判断是否支持自动装配
 	 */
 	public boolean isAutowire() {
 		return (this == BY_NAME || this == BY_TYPE);

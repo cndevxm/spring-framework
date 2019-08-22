@@ -23,6 +23,8 @@ package org.springframework.format;
  * @author Keith Donald
  * @since 3.0
  * @param <T> the type of object this Formatter formats
+ *
+ * 格式化接口
  */
 public interface Formatter<T> extends Printer<T>, Parser<T> {
 

@@ -24,6 +24,8 @@ import java.util.Locale;
  * @author Keith Donald
  * @since 3.0
  * @param <T> the type of object this Printer prints
+ *
+ * 将 target类型转换为String类型
  */
 @FunctionalInterface
 public interface Printer<T> {

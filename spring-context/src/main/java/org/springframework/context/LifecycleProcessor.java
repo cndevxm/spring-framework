@@ -27,11 +27,15 @@ public interface LifecycleProcessor extends Lifecycle {
 
 	/**
 	 * Notification of context refresh, e.g. for auto-starting components.
+	 *
+	 * 提供容器开始刷新时通知
 	 */
 	void onRefresh();
 
 	/**
 	 * Notification of context close phase, e.g. for auto-stopping components.
+	 *
+	 * 提供容器开始关闭时通知
 	 */
 	void onClose();
 

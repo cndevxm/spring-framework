@@ -16,9 +16,9 @@
 
 package org.springframework.format;
 
-import java.lang.annotation.Annotation;
-
 import org.springframework.core.convert.converter.ConverterRegistry;
+
+import java.lang.annotation.Annotation;
 
 /**
  * A registry of field formatting logic.
@@ -26,6 +26,8 @@ import org.springframework.core.convert.converter.ConverterRegistry;
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
+ *
+ * 注册属性格式化逻辑
  */
 public interface FormatterRegistry extends ConverterRegistry {
 
@@ -35,6 +37,8 @@ public interface FormatterRegistry extends ConverterRegistry {
 	 * @param formatter the formatter to add
 	 * @see #addFormatterForFieldType(Class, Formatter)
 	 * @since 3.1
+	 *
+	 * 添加特定类型的Formatter
 	 */
 	void addFormatter(Formatter<?> formatter);
 
@@ -46,6 +50,8 @@ public interface FormatterRegistry extends ConverterRegistry {
 	 * a coercion to the field type will be attempted before returning the parsed field value.
 	 * @param fieldType the field type to format
 	 * @param formatter the formatter to add
+	 *
+	 * 为指定类型添加指定的Formatter
 	 */
 	void addFormatterForFieldType(Class<?> fieldType, Formatter<?> formatter);
 
@@ -60,12 +66,16 @@ public interface FormatterRegistry extends ConverterRegistry {
 	 * @param fieldType the field type to format
 	 * @param printer the printing part of the formatter
 	 * @param parser the parsing part of the formatter
+	 *
+	 * 为特定类型添加指定的Printer和Parser
 	 */
 	void addFormatterForFieldType(Class<?> fieldType, Printer<?> printer, Parser<?> parser);
 
 	/**
 	 * Adds a Formatter to format fields annotated with a specific format annotation.
 	 * @param annotationFormatterFactory the annotation formatter factory to add
+	 *
+	 * 注册基于注解驱动的Formatter
 	 */
 	void addFormatterForFieldAnnotation(AnnotationFormatterFactory<? extends Annotation> annotationFormatterFactory);
 

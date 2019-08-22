@@ -16,6 +16,8 @@
 
 package org.springframework.core.io;
 
+import org.springframework.lang.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +25,6 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-
-import org.springframework.lang.Nullable;
 
 /**
  * Interface for a resource descriptor that abstracts from the actual
@@ -48,6 +48,8 @@ import org.springframework.lang.Nullable;
  * @see ClassPathResource
  * @see ByteArrayResource
  * @see InputStreamResource
+ *
+ * 对底层资源的抽象,像文件或者classpath资源
  */
 public interface Resource extends InputStreamSource {
 
@@ -56,6 +58,8 @@ public interface Resource extends InputStreamSource {
 	 * <p>This method performs a definitive existence check, whereas the
 	 * existence of a {@code Resource} handle only guarantees a valid
 	 * descriptor handle.
+	 *
+	 * 判断物理形式的资源是否存在
 	 */
 	boolean exists();
 
@@ -77,6 +81,10 @@ public interface Resource extends InputStreamSource {
 	 * If {@code true}, the InputStream cannot be read multiple times,
 	 * and must be read and closed to avoid resource leaks.
 	 * <p>Will be {@code false} for typical resource descriptors.
+	 *
+	 * 只对InputStream有效，表示是否持有InputStream的句柄
+	 * 如果为true，表示无法多次读取，并及时关闭以免浪费资源
+	 * 非InputStream资源恒为false
 	 */
 	default boolean isOpen() {
 		return false;
@@ -170,6 +178,9 @@ public interface Resource extends InputStreamSource {
 	 * <p>Implementations are also encouraged to return this value
 	 * from their {@code toString} method.
 	 * @see Object#toString()
+	 *
+	 * 返回一个描述
+	 * 一般为文件的全限定名或者真实的URL
 	 */
 	String getDescription();
 

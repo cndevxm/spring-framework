@@ -16,15 +16,11 @@
 
 package org.springframework.context.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.core.annotation.AliasFor;
+
+import java.lang.annotation.*;
 
 /**
  * Indicates that a method produces a bean to be managed by the Spring container.
@@ -212,6 +208,8 @@ import org.springframework.core.annotation.AliasFor;
  * @see org.springframework.stereotype.Component
  * @see org.springframework.beans.factory.annotation.Autowired
  * @see org.springframework.beans.factory.annotation.Value
+ *
+ * 通过该注解标注的方法将返回一个bean，方法名即为bean默认的名称
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -224,6 +222,8 @@ public @interface Bean {
 	 * {@code @Bean("customBeanName")}.
 	 * @since 4.3.3
 	 * @see #name
+	 *
+	 * bean的名称
 	 */
 	@AliasFor("name")
 	String[] value() default {};
@@ -235,6 +235,8 @@ public @interface Bean {
 	 * <p>The bean name and aliases may also be configured via the {@link #value}
 	 * attribute if no other attributes are declared.
 	 * @see #value
+	 *
+	 * bean的名称
 	 */
 	@AliasFor("value")
 	String[] name() default {};
@@ -248,6 +250,8 @@ public @interface Bean {
 	 * bean class itself expresses through annotations.
 	 * @see Autowire#BY_NAME
 	 * @see Autowire#BY_TYPE
+	 *
+	 * 使用支持自动装配，默认为不支持自动装配
 	 */
 	Autowire autowire() default Autowire.NO;
 
@@ -258,6 +262,8 @@ public @interface Bean {
 	 * <p>The default value is {@code ""}, indicating no init method to be called.
 	 * @see org.springframework.beans.factory.InitializingBean
 	 * @see org.springframework.context.ConfigurableApplicationContext#refresh()
+	 *
+	 * 生命周期初始化方法
 	 */
 	String initMethod() default "";
 
@@ -287,6 +293,8 @@ public @interface Bean {
 	 * other scope.
 	 * @see org.springframework.beans.factory.DisposableBean
 	 * @see org.springframework.context.ConfigurableApplicationContext#close()
+	 *
+	 * 生命周期销毁方法
 	 */
 	String destroyMethod() default AbstractBeanDefinition.INFER_METHOD;
 

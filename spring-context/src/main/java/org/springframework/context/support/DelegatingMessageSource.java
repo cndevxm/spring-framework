@@ -16,13 +16,13 @@
 
 package org.springframework.context.support;
 
-import java.util.Locale;
-
 import org.springframework.context.HierarchicalMessageSource;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.lang.Nullable;
+
+import java.util.Locale;
 
 /**
  * Empty {@link MessageSource} that delegates all calls to the parent MessageSource.
@@ -34,6 +34,8 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @since 1.1.5
  * @see AbstractApplicationContext
+ *
+ * 默认 MessageSource
  */
 public class DelegatingMessageSource extends MessageSourceSupport implements HierarchicalMessageSource {
 

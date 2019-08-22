@@ -28,6 +28,8 @@ import org.springframework.lang.Nullable;
  * @see MessageSource#getMessage(MessageSourceResolvable, java.util.Locale)
  * @see org.springframework.validation.ObjectError
  * @see org.springframework.validation.FieldError
+ *
+ * spring
  */
 @FunctionalInterface
 public interface MessageSourceResolvable {

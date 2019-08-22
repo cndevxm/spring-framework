@@ -35,6 +35,8 @@ import org.springframework.lang.Nullable;
  * @see #setParentName
  * @see RootBeanDefinition
  * @see ChildBeanDefinition
+ *
+ * BeanDefinition接口默认实现
  */
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {

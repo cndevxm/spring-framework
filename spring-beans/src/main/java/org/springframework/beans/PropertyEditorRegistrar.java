@@ -29,6 +29,8 @@ package org.springframework.beans;
  * @since 1.2.6
  * @see PropertyEditorRegistry
  * @see java.beans.PropertyEditor
+ *
+ * 提供一个接口用于注册自定义Property
  */
 public interface PropertyEditorRegistrar {
 
@@ -42,6 +44,8 @@ public interface PropertyEditorRegistrar {
 	 * method (since {@code PropertyEditors} are not threadsafe).
 	 * @param registry the {@code PropertyEditorRegistry} to register the
 	 * custom {@code PropertyEditors} with
+	 *
+	 * 注册PropertyEditorRegistry
 	 */
 	void registerCustomEditors(PropertyEditorRegistry registry);
 
