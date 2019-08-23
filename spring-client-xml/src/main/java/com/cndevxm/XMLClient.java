@@ -36,14 +36,15 @@ public class XMLClient {
 
 		System.out.println(applicationContext.getBean("amg").toString());
 		System.out.println(applicationContext.getBean("v").toString());
-		System.out.println(applicationContext.getBean("bwm3").toString());
-		System.out.println(applicationContext.getBean("bwm5").toString());
-		System.out.println(applicationContext.getBean("bwm7").toString());
+		System.out.println(applicationContext.getBean("bmw3").toString());
+		System.out.println(applicationContext.getBean("bmw5").toString());
+		System.out.println(applicationContext.getBean("bmw7").toString());
 
 		System.out.println(applicationContext.getBean("chineseTeacher").toString());
 		System.out.println(applicationContext.getBean("englishTeacher").toString());
 		System.out.println(applicationContext.getBean("peTeacher").toString());
 		System.out.println(applicationContext.getBean("mathTeacher").toString());
+		System.out.println(applicationContext.getBean("王老师").toString());
 
 		System.out.println(applicationContext.getBean("研发部").toString());
 		System.out.println(applicationContext.getBean("测试部").toString());

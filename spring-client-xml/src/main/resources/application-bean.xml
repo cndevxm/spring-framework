@@ -36,7 +36,7 @@
 	<alias name="bungalow" alias="yf"/>
 
 	<!-- 抽象bean 并不进行实例化 只能用来继承 -->
-	<bean id="modleHouse" name="modleHouse" class="com.cndevxm.entity.House" abstract="true">
+	<bean id="modelHouse" name="modelHouse" class="com.cndevxm.entity.House" abstract="true">
 		<!-- 对Properties类型的参数进行值设置 只能设置字面量-->
 		<property name="properties">
 			<props>
@@ -69,7 +69,7 @@
 
 	<!-- 使用parent属性进行属性继承 -->
 	<!-- 使用merge属性对继承的属性进行处理，如果merge属性为false，则直接使用子类属性，如果merge属性为true，则merge父bean属性 -->
-	<bean id="testHouse" name="testHouse" parent="modleHouse">
+	<bean id="testHouse" name="testHouse" parent="modelHouse">
 		<property name="properties">
 			<props merge="false">
 				<prop key="brand">万科集团</prop>
@@ -96,13 +96,25 @@
 
 	<!-- p标签与c标签的使用 -->
 	<!-- 候选者与primary属性 -->
-	<!-- autowire-candidate为true + primary的优先级最高 其此是autowire-candidate为true的bean 切记所有bean默认为true -->
-	<bean id="amg" name="amg" class="com.cndevxm.entity.Car" p:brand="benz" p:style="car" autowire-candidate="true"/>
-	<bean id="v" name="v" class="com.cndevxm.entity.Car" p:brand="benz" p:style="business"/>
-	<bean id="bwm3" name="bwm3" class="com.cndevxm.entity.Car" c:brand="bmw" c:style="car"/>
-	<bean id="bwm5" name="bwm5" class="com.cndevxm.entity.Car" c:_0="bmw" c:_1="car"/>
-	<bean id="bwm7" name="bwm7" class="com.cndevxm.entity.Car" c:brand="bmw" c:style="car" autowire-candidate="true"
-		  primary="true"/>
+	<!-- 优先匹配autowire-candidate为true，如果存在多个，则匹配primary为true 切记所有bean的autowire-candidate属性默认为true -->
+	<!-- qualifier 标签只是起到一个分组的左右，依赖注入会先进行分组，再进行优先级获取 -->
+
+	<bean id="amg" name="amg" class="com.cndevxm.entity.Car" p:brand="benz" p:style="car" autowire-candidate="true">
+		<qualifier type="com.cndevxm.annotation.qualifiers.BenzCar" value="am"/>
+	</bean>
+	<bean id="v" name="v" class="com.cndevxm.entity.Car" p:brand="benz" p:style="business" autowire-candidate="true"
+		  primary="true">
+		<qualifier type="com.cndevxm.annotation.qualifiers.BenzCar" value="vv"/>
+	</bean>
+	<bean id="bmw3" name="bmw3" class="com.cndevxm.entity.Car" c:brand="bmw3" c:style="car" autowire-candidate="true">
+		<qualifier type="com.cndevxm.annotation.qualifiers.BMWCar" value="bmw3"/>
+	</bean>
+	<bean id="bmw5" name="bmw5" class="com.cndevxm.entity.Car" c:_0="bmw5" c:_1="car" autowire-candidate="true">
+		<qualifier type="com.cndevxm.annotation.qualifiers.BMWCar" value="bmw5"/>
+	</bean>
+	<bean id="bmw7" name="bmw7" class="com.cndevxm.entity.Car" c:brand="bmw7" c:style="car" autowire-candidate="true">
+		<qualifier type="com.cndevxm.annotation.qualifiers.BMWCar" value="bmw7"/>
+	</bean>
 
 	<!-- 显示注入 cp标签的使用 -->
 	<!-- 通过p命名空间简化XML<property/>标签配置可以与<property/>标签混用，且p标签的优先级高于<property/>的优先级 -->
@@ -150,7 +162,7 @@
 			直接匹配第一个参数数量与参数类型匹配的函数 -->
 	<bean id="peTeacher" name="peTeacher"
 		  class="com.cndevxm.entity.factory.TeacherStaticFactory" factory-method="createPETeacher"
-		  c:_1="30" c:name="王五" c:subject="体育" c:_3-ref="testHouse" c:_4-ref="bwm3">
+		  c:_1="30" c:name="王五" c:subject="体育" c:_3-ref="testHouse" c:_4-ref="bmw3">
 	</bean>
 
 	<!-- 实例工厂方法

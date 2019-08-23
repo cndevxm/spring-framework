@@ -1,5 +1,10 @@
 package com.cndevxm.entity;
 
+import com.cndevxm.annotation.qualifiers.BMWCar;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("王老师")
 public class Teacher {
 
 	// 姓名
@@ -11,6 +16,8 @@ public class Teacher {
 	// 房子
 	private House house;
 	// 车子
+	@Autowired
+	@BMWCar(value = "bmw3")
 	private Car car;
 
 	public Teacher() {
