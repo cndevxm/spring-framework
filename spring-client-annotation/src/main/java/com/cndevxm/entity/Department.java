@@ -1,14 +1,25 @@
 package com.cndevxm.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Department {
 
 	// 名称
+	@Value("河南分公司")
 	private String name;
 	// 级别
+	@Value("2")
 	private String level;
 
 	private Car car;
 
+	@Autowired
+	@Qualifier("182")
 	private Bus bus;
 
 	public Department() {
@@ -63,6 +74,7 @@ public class Department {
 				'}';
 	}
 
+	@Lookup("182")
 	public Bus createBus() {
 		return null;
 	}

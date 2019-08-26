@@ -2,8 +2,10 @@ package com.cndevxm.event;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.stereotype.Component;
 
-public class MyPublisher implements ApplicationEventPublisherAware {
+@Component
+public class BusPublisher implements ApplicationEventPublisherAware {
 
 	private ApplicationEventPublisher applicationEventPublisher;
 
@@ -17,7 +19,7 @@ public class MyPublisher implements ApplicationEventPublisherAware {
 	 *
 	 * @param applicationEvent
 	 */
-	public void publish(MyApplicationEvent applicationEvent) {
+	public void publish(BusEvent applicationEvent) {
 		applicationEventPublisher.publishEvent(applicationEvent);
 	}
 }

@@ -26,15 +26,13 @@ public class Bus extends Car implements InitializingBean, DisposableBean {
 		this.busName = busName;
 	}
 
+	public void init() {
+		System.out.println("进行了基于的初始化方法");
+	}
 
-//	public void init() {
-//		System.out.println("进行了基于XML的初始化方法");
-//	}
-//
-//	public void des(){
-//		System.out.println("进行了基于XML的销毁方法");
-//	}
-
+	public void des() {
+		System.out.println("进行了基于XML的销毁方法");
+	}
 
 	@PostConstruct
 	public void postConstruct() {
