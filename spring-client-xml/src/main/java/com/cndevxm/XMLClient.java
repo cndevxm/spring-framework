@@ -3,7 +3,7 @@ package com.cndevxm;
 import com.cndevxm.entity.Bus;
 import com.cndevxm.entity.Department;
 import com.cndevxm.event.BusEvent;
-import com.cndevxm.event.BusPublisher;
+import com.cndevxm.event.Publisher;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -71,22 +71,24 @@ public class XMLClient {
 		System.out.println(applicationContext.getMessage("ss", new Object[]{"张三", "坑"}, null));
 
 		// event and listener
-		BusPublisher busPublisher = (BusPublisher) applicationContext.getBean("busPublisher");
+		// 异步调用将无法优雅关闭spring应用
+		Publisher publisher = (Publisher) applicationContext.getBean("publisher");
 		BusEvent busEvent = new BusEvent();
 		busEvent.setBusName("182");
 		busEvent.setEventType("出发");
 		busEvent.setDate(new Date());
-		busPublisher.publish(busEvent);
-		busEvent.setBusName("B28");
-		busPublisher.publish(busEvent);
+		publisher.publish(busEvent);
+
+		BusEvent busEvent1 = new BusEvent();
+		busEvent1.setBusName("B28");
+		busEvent1.setEventType("出发");
+		busEvent1.setDate(new Date());
+		publisher.publish(busEvent1);
 
 		// propertyEditor
 		System.out.println(applicationContext.getBean("dogCompany").toString());
 		System.out.println(applicationContext.getBean("catCompany").toString());
 
-
-
-		applicationContext.registerShutdownHook();
 
 	}
 }

@@ -3,7 +3,7 @@ package com.cndevxm.event;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
-public class BusPublisher implements ApplicationEventPublisherAware {
+public class Publisher implements ApplicationEventPublisherAware {
 
 	private ApplicationEventPublisher applicationEventPublisher;
 

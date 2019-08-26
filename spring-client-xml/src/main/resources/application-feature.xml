@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:task="http://www.springframework.org/schema/task"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-	   http://www.springframework.org/schema/beans/spring-beans.xsd"
+	   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
 >
 
 	<!-- bfpp与bpp实例化与使用流程 -->
@@ -61,7 +62,11 @@
 	<bean id="busListener1" name="busListener1" class="com.cndevxm.event.BusListener1"/>
 	<bean id="busListener2" name="busListener2" class="com.cndevxm.event.BusListener2"/>
 	<!-- 自定义发布 通过applicationEventPublisher发布事件-->
-	<bean id="busPublisher" name="busPublisher" class="com.cndevxm.event.BusPublisher"/>
+	<bean id="publisher" name="publisher" class="com.cndevxm.event.Publisher"/>
+
+	<!-- 开启异步 -->
+	<task:executor id="myexecutor" pool-size="10"/>
+	<task:annotation-driven executor="myexecutor"/>
 
 	<!-- 可以使用返参确定另一个事件的发布 基于注解 -->
 	<!-- 同步监听与异步监听 -->

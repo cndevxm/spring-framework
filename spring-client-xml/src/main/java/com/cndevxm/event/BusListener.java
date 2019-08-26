@@ -2,6 +2,7 @@ package com.cndevxm.event;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class BusListener implements ApplicationListener<BusEvent> {
 	 * @param event the event to respond to
 	 */
 	@Override
+	@Async
 	public void onApplicationEvent(BusEvent event) {
 		String busName = event.getBusName();
 		String eventType = event.getEventType();
