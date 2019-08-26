@@ -80,6 +80,11 @@ public class XMLClient {
 		busEvent.setBusName("B28");
 		busPublisher.publish(busEvent);
 
+		// propertyEditor
+		System.out.println(applicationContext.getBean("dogCompany").toString());
+		System.out.println(applicationContext.getBean("catCompany").toString());
+
+
 
 		applicationContext.registerShutdownHook();
 

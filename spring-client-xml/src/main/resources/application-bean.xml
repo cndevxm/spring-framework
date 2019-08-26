@@ -14,6 +14,7 @@
 >
 
 	<!-- id与name属性都表示该bean的标识符，区别是id只能设置一个，name可以设置多个，默认取id为bean的唯一标识其他为别名-->
+	<!-- 如果没有配置id和name属性 则默认名称为类的全限定名+#+序号 -->
 	<!-- 普通实例化的bean 默认为单例域-->
 	<bean id="car" name="car" class="com.cndevxm.entity.Car"/>
 
