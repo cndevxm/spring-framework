@@ -3,7 +3,7 @@ package com.cndevxm;
 import com.cndevxm.entity.Bus;
 import com.cndevxm.entity.Department;
 import com.cndevxm.event.BusEvent;
-import com.cndevxm.event.BusPublisher;
+import com.cndevxm.event.Publisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Date;
@@ -52,15 +52,15 @@ public class AnnotationClient {
 		System.out.println(applicationContext.getMessage("ss", new Object[]{"张三", "坑"}, null));
 
 		// event and listener
-		BusPublisher busPublisher = (BusPublisher) applicationContext.getBean("busPublisher");
+		Publisher publisher = (Publisher) applicationContext.getBean("publisher");
 		BusEvent busEvent = new BusEvent();
 		busEvent.setBusName("182");
 		busEvent.setEventType("出发");
 		busEvent.setDate(new Date());
-		busPublisher.publish(busEvent);
+		publisher.publish(busEvent);
 		busEvent.setBusName("B28");
 		busEvent.setDate(new Date());
-		busPublisher.publish(busEvent);
+		publisher.publish(busEvent);
 
 
 		applicationContext.registerShutdownHook();
