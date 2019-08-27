@@ -12,8 +12,7 @@ import java.util.Date;
 public class BusEventListener {
 
 	@EventListener
-	@Async
-	@Order(100)
+	@Order(0)
 	public void busEventListener1(BusEvent busEvent) {
 		String busName = busEvent.getBusName();
 		String eventType = busEvent.getEventType();
@@ -23,8 +22,7 @@ public class BusEventListener {
 	}
 
 	@EventListener
-	@Async
-	@Order(99)
+	@Order(1)
 	public TestEvent busEventListener2(BusEvent busEvent) {
 		String busName = busEvent.getBusName();
 		String eventType = busEvent.getEventType();
@@ -37,8 +35,8 @@ public class BusEventListener {
 	}
 
 	@EventListener
-	@Async
-	@Order(98)
+	@Async("myExecutor")
+	@Order(2)
 	public void busEventListener3(BusEvent busEvent) {
 		try {
 			Thread.sleep(10000);
@@ -53,8 +51,8 @@ public class BusEventListener {
 	}
 
 	@EventListener(condition = "#busEvent.busName == '182'")
-	@Async
-	@Order(97)
+	@Async("myExecutor")
+	@Order(3)
 	public void busEventListenerFor182(BusEvent busEvent) {
 		try {
 			Thread.sleep(10000);
@@ -69,8 +67,8 @@ public class BusEventListener {
 	}
 
 	@EventListener(condition = "#busEvent.busName == 'B28'")
-	@Async
-	@Order(97)
+	@Async("myExecutor")
+	@Order(3)
 	public void busEventListenerForB28(BusEvent busEvent) {
 		try {
 			Thread.sleep(10000);

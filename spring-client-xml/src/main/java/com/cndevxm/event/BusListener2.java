@@ -18,6 +18,7 @@ public class BusListener2 implements ApplicationListener<BusEvent> {
 	@Override
 	@Async
 	public void onApplicationEvent(BusEvent event) {
+		System.out.println("王五开始收听公交消息...");
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {

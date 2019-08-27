@@ -58,9 +58,12 @@ public class AnnotationClient {
 		busEvent.setEventType("出发");
 		busEvent.setDate(new Date());
 		publisher.publish(busEvent);
-		busEvent.setBusName("B28");
-		busEvent.setDate(new Date());
-		publisher.publish(busEvent);
+
+		BusEvent busEvent1 = new BusEvent();
+		busEvent1.setBusName("B28");
+		busEvent1.setEventType("出发");
+		busEvent1.setDate(new Date());
+		publisher.publish(busEvent1);
 
 
 		applicationContext.registerShutdownHook();
