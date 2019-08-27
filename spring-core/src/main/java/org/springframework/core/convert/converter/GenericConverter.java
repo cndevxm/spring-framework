@@ -45,7 +45,8 @@ import java.util.Set;
  * @see ConverterFactory
  * @see ConditionalConverter
  *
- * 通用的类型转换器
+ * 通用的类型转换器3
+ * N 对 N的转换
  */
 public interface GenericConverter {
 

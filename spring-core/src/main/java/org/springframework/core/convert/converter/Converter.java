@@ -31,6 +31,7 @@ import org.springframework.lang.Nullable;
  * @param <T> the target type
  *
  * 类型转换的父接口
+ * 一 对 一的转换
  */
 @FunctionalInterface
 public interface Converter<S, T> {
@@ -40,6 +41,7 @@ public interface Converter<S, T> {
 	 * @param source the source object to convert, which must be an instance of {@code S} (never {@code null})
 	 * @return the converted object, which must be an instance of {@code T} (potentially {@code null})
 	 * @throws IllegalArgumentException if the source cannot be converted to the desired target type
+	 * 将 S 类型转换为 T 类型
 	 */
 	@Nullable
 	T convert(S source);

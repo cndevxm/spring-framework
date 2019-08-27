@@ -29,6 +29,7 @@ package org.springframework.core.convert.converter;
  * for example {@link Number} for a set of number subtypes.
  *
  * 通过ConverterFactory获取Converter
+ * 一对多的转换
  */
 public interface ConverterFactory<S, R> {
 
