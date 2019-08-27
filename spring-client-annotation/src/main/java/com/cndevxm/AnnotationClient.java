@@ -65,6 +65,10 @@ public class AnnotationClient {
 		busEvent1.setDate(new Date());
 		publisher.publish(busEvent1);
 
+		// propertyEditor
+		System.out.println(applicationContext.getBean("company").toString());
+
+
 
 		applicationContext.registerShutdownHook();
 
