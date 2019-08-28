@@ -16,9 +16,9 @@
 
 package org.springframework.expression;
 
-import java.util.List;
-
 import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 /**
  * Expressions are executed in an evaluation context. It is in this context that
@@ -27,6 +27,12 @@ import org.springframework.lang.Nullable;
  * <p>There is a default implementation of this EvaluationContext interface:
  * {@link org.springframework.expression.spel.support.StandardEvaluationContext}
  * which can be extended, rather than having to implement everything manually.
+ *
+ * 解析属性、字段和方法
+ * 执行类型转换
+ * 为表达式的解析提供上下文环境，存在两个开箱即用实现
+ * {@link org.springframework.expression.spel.support.SimpleEvaluationContext}
+ * {@link org.springframework.expression.spel.support.StandardEvaluationContext}
  *
  * @author Andy Clement
  * @author Juergen Hoeller

@@ -27,6 +27,8 @@ import org.springframework.lang.Nullable;
  * @author Andy Clement
  * @since 3.0
  * @see org.springframework.expression.spel.standard.SpelExpressionParser#SpelExpressionParser(SpelParserConfiguration)
+ *
+ * 解析器配置类
  */
 public class SpelParserConfiguration {
 

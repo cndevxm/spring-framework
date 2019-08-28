@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+	<context:property-placeholder location="classpath*:jdbc.properties"/>
+
+	<!-- 静态方法 -->
+	<bean id="firstRandom" class="com.cndevxm.XMLSpelClient$RandomDemo">
+		<property name="randow" value="#{ T(java.lang.Math).random() }"/>
+	</bean>
+
+	<!-- 获取property -->
+	<bean id="jdbcDemo" class="com.cndevxm.XMLSpelClient$JdbcDemo">
+		<property name="driver" value="#{ systemProperties['driver'] }"/>
+		<property name="url" value="#{ systemProperties['url'] }"/>
+	</bean>
+
+	<!-- 其他bean数据 -->
+	<bean id="jdbcDemo1" class="com.cndevxm.XMLSpelClient$JdbcDemo">
+		<property name="driver" value="#{ jdbcDemo.driver }"/>
+		<property name="url" value="#{ jdbcDemo.url }"/>
+	</bean>
+
+
+</beans>

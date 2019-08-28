@@ -60,6 +60,12 @@ public class XMLClient {
 		Bus bus4 = ((Department) applicationContext.getBean("河北分公司")).createBus();
 		System.out.println(bus3 == bus4);
 
+		// propertySource
+		System.out.println(applicationContext.getEnvironment().getProperty("driver"));
+		System.out.println(applicationContext.getEnvironment().getProperty("url"));
+		System.out.println(applicationContext.getEnvironment().getProperty("username"));
+		System.out.println(applicationContext.getEnvironment().getProperty("password"));
+
 		// profile
 		System.out.println(applicationContext.getBean("company").toString());
 

@@ -16,27 +16,14 @@
 
 package org.springframework.expression.spel.support;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.expression.BeanResolver;
-import org.springframework.expression.ConstructorResolver;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.MethodResolver;
-import org.springframework.expression.OperatorOverloader;
-import org.springframework.expression.PropertyAccessor;
-import org.springframework.expression.TypeComparator;
-import org.springframework.expression.TypeConverter;
-import org.springframework.expression.TypeLocator;
-import org.springframework.expression.TypedValue;
+import org.springframework.expression.*;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.SpelMessage;
 import org.springframework.lang.Nullable;
+
+import java.util.*;
 
 /**
  * A basic implementation of {@link EvaluationContext} that focuses on a subset
@@ -85,6 +72,8 @@ import org.springframework.lang.Nullable;
  * @see StandardEvaluationContext
  * @see StandardTypeConverter
  * @see DataBindingPropertyAccessor
+ *
+ * EvaluationContext的基本实现
  */
 public class SimpleEvaluationContext implements EvaluationContext {
 

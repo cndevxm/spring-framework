@@ -16,12 +16,6 @@
 
 package org.springframework.format.support;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.DecoratingProxy;
@@ -31,14 +25,16 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.format.AnnotationFormatterFactory;
-import org.springframework.format.Formatter;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.format.Parser;
-import org.springframework.format.Printer;
+import org.springframework.format.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
+
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A {@link org.springframework.core.convert.ConversionService} implementation
@@ -121,7 +117,7 @@ public class FormattingConversionService extends GenericConversionService
 		return annotationType;
 	}
 
-
+	// Formatter 与 Converter 融合
 	private static class PrinterConverter implements GenericConverter {
 
 		private final Class<?> fieldType;
@@ -168,7 +164,7 @@ public class FormattingConversionService extends GenericConversionService
 		}
 	}
 
-
+	// Formatter 与 Converter 融合
 	private static class ParserConverter implements GenericConverter {
 
 		private final Class<?> fieldType;
@@ -178,7 +174,9 @@ public class FormattingConversionService extends GenericConversionService
 		private final ConversionService conversionService;
 
 		public ParserConverter(Class<?> fieldType, Parser<?> parser, ConversionService conversionService) {
+			// 转换的类型结果
 			this.fieldType = fieldType;
+			// 转换器
 			this.parser = parser;
 			this.conversionService = conversionService;
 		}
@@ -197,6 +195,7 @@ public class FormattingConversionService extends GenericConversionService
 			}
 			Object result;
 			try {
+				// 尝试使用parser的parse方法
 				result = this.parser.parse(text, LocaleContextHolder.getLocale());
 			}
 			catch (IllegalArgumentException ex) {

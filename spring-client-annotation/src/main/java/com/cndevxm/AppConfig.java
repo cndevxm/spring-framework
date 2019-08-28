@@ -18,6 +18,8 @@ import java.util.HashMap;
 // 使用@Import注解完成其他配置类的注入
 @Import(BeanConfig.class)
 @EnableAsync
+// 导入Spring的配置文件
+//@ImportResource
 public class AppConfig {
 
 	// 配置自定义propertyEditor
