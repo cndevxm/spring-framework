@@ -39,10 +39,10 @@ public class AnnotationClient {
 		System.out.println(applicationContext.getBean("company").toString());
 
 		// propertySource
-		System.out.println(applicationContext.getEnvironment().getProperty("driver"));
-		System.out.println(applicationContext.getEnvironment().getProperty("url"));
-		System.out.println(applicationContext.getEnvironment().getProperty("username"));
-		System.out.println(applicationContext.getEnvironment().getProperty("password"));
+		System.out.println(applicationContext.getEnvironment().getProperty("jdbc.driver"));
+		System.out.println(applicationContext.getEnvironment().getProperty("jdbc.url"));
+		System.out.println(applicationContext.getEnvironment().getProperty("jdbc.username"));
+		System.out.println(applicationContext.getEnvironment().getProperty("jdbc.password"));
 
 		// messageSource
 		System.out.println(applicationContext.getMessage("w", null, Locale.US));
@@ -52,6 +52,7 @@ public class AnnotationClient {
 		System.out.println(applicationContext.getMessage("ss", new Object[]{"张三", "坑"}, null));
 
 		// event and listener
+		// TODO 遗留问题 通过注解的配置异步无法生效
 		Publisher publisher = (Publisher) applicationContext.getBean("publisher");
 		BusEvent busEvent = new BusEvent();
 		busEvent.setBusName("182");
@@ -67,6 +68,12 @@ public class AnnotationClient {
 
 		// propertyEditor
 		System.out.println(applicationContext.getBean("company").toString());
+
+		// spel
+		// TODO 遗留问题无法获取系统属性
+		System.out.println(applicationContext.getBean("spelDemo").toString());
+
+
 
 
 

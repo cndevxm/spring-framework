@@ -7,7 +7,7 @@ version '5.0.13.BUILD-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-repositories { 
+repositories {
     mavenCentral()
 }
 

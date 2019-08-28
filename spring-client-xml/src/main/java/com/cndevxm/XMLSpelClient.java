@@ -57,6 +57,7 @@ public class XMLSpelClient {
 
 		// spel在bean definitions中的使用
 		// 使用#{expression string}形式 定义表达式
+		// TODO 遗留问题无法为系统配置属性,且无法获取到属性
 		System.out.println(applicationContext.getBean("firstRandom").toString());
 		System.out.println(applicationContext.getBean("jdbcDemo").toString());
 		System.out.println(applicationContext.getBean("jdbcDemo1").toString());
