@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+	<!-- AOP的术语
+		Aspect 切面：跨多个类的关注点的模块化。事务管理是企业java应用程序中横切关注点的一个很好的例子
+			在Spring AOP中切面是基于schema或者注解配置的
+		Join point 连接点：程序执行期间的一个点。如方法的执行或者异常的处理，
+			在Spring AOP中连接点始终表示方法执行
+		Advice 通知：一个切面在一个特定的连接点所采取的行动。不同类型的通知包括“around”、“before”、“after”
+			在许多AOP框架（包括Spring）将通知建模成一个拦截器，在连接点周围维护一个拦截器链
+		Pointcut 切入点：匹配连接点的谓词。通知和切入点表达式相关联，并在切入点匹配的任何连接点上运行（例如，具有某个名称的方法的执行）
+			由切入点表达式匹配的连接点的概念是AOP的核心，Spring默认使用AspectJ切入点表达式语言
+		Introduction 介绍：为一种类型添加额外的方法或者字段，通过引入新的接口已经相应的实现
+		Target object 目标对象：被一个或者多个切面通知的对象，也称为被通知对象。由于Spring AOP是通过运行时代理实现的，因此该对象始终是一个代理对象
+		AOP proxy AOP代理：AOP框架为了实现切面功能而创建的对象。
+		Weaving 编织：将切面与其它应用程序类型或者对象连接起来创建被通知的对象，可以在编译时、加载时或运行时完成
+			Spring AOP与其他javaAOP框架一样，在运行时编织
+
+		通知类型：
+			Before advice：在连接点之前执行的通知，不能阻止执行流流向连接点的能力（除非它引发异常）
+			After returning advice：在连接点正常完成后通知
+			After throwing advice：如果方法通过抛出异常退出，则执行通知
+			After（finally） advice：不管连接点以何种方式退出（正常或异常返回），都要执行的通知
+			Around advice：围绕连接点的通知。这是最有力的通知，可以在方法调用之前或者之后执行自定义行为，它还可以选择继续连接到连接点或者通过返回自己的返回值或抛出异常的方式来缩短被通知方法的执行
+
+		切入点指示器 PCD：
+			execution：匹配方法执行的连接点
+				execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern)throws-pattern?)
+			within：
+			this：
+			target：
+			args：
+			@target：
+			@args：
+			@within：
+			@annotation：
+			bean：spring aop中支持，AspectJ不支持
+
+		切入点表达式：使用“&&”、“||”、“!”进行组合
+
+	-->
+
+	<!-- 服务bean -->
+	<bean id="authService" class="com.cndevxm.service.impl.AuthServiceImpl"/>
+
+	<!-- 提供AspectJ支持 -->
+	<!--	<aop:aspectj-autoproxy/>-->
+
+	<!-- 声明切面bean -->
+	<bean id="serviceAspect" class="com.cndevxm.aop.aspects.ServiceAspect"/>
+
+	<!-- aop配置 -->
+	<aop:config>
+		<!-- 配置切面 -->
+		<aop:aspect id="serviceAspect" ref="serviceAspect" order="1">
+			<!-- 配置切入点 -->
+			<aop:pointcut id="authPointcut" expression="bean(authService)"/>
+
+			<aop:before method="doBefore" pointcut-ref="authPointcut"/>
+			<aop:around method="doAround" pointcut-ref="authPointcut"/>
+			<aop:after-throwing method="doAfterThrowing" pointcut-ref="authPointcut"/>
+			<aop:after-returning method="doAfterReturning" pointcut-ref="authPointcut"/>
+			<aop:after method="doAfter" pointcut-ref="authPointcut"/>
+		</aop:aspect>
+
+	</aop:config>
+
+
+</beans>
