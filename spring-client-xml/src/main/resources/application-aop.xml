@@ -27,27 +27,51 @@
 			Around advice：围绕连接点的通知。这是最有力的通知，可以在方法调用之前或者之后执行自定义行为，它还可以选择继续连接到连接点或者通过返回自己的返回值或抛出异常的方式来缩短被通知方法的执行
 
 		切入点指示器 PCD：
-			execution：匹配方法执行的连接点
-				execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern)throws-pattern?)
-			within：
-			this：
-			target：
-			args：
-			@target：
-			@args：
-			@within：
-			@annotation：
-			bean：spring aop中支持，AspectJ不支持
+			execution(方法表达式)：匹配方法签名
+			within(类型表达式)：匹配执行引用类型(堆对象)
+			this(类型全限定名)：匹配当前连接点代理对象引用为某个特定类型的示例，能够对引入接口进行类型类配
+			target(类型全限定名)：匹配当前连接点目标对象引用为某个特定类型的示例，不能对引入接口进行类型匹配
+			args(参数类型列表)：匹配当前执行的方法传入的参数为指定类型，必须是类型全限定名，不支持通配符，性能开销大
+			@target(注解类型)：匹配连接点所属的目标对象(堆对象)有一个指定的注解，匹配类
+			@args(注解列表)：匹配连接点传过来的参数的类型必须有指定的注解，匹配参数
+			@within(注解类型)：匹配包含某个注解的类里的所有连接点，只能匹配类
+			@annotation(注解类型)：匹配有指定注解的连接点，匹配类或者方法
+			bean：spring aop中支持，AspectJ不支持，匹配bean对象名称
 
-		切入点表达式：使用“&&”、“||”、“!”进行组合
+		切入点表达式：
+			使用“&&”、“||”、“!”进行组合，在schema风格的配置中，使用“and”、“or”、“not”进行替换。
+			通配符：
+				*：匹配任何字符
+				..：匹配任何数量字符
+				+；匹配指定类型的子类型，作为后缀放在类型模式后边
+			匹配类型：
+				注解？	类的全限定名
+			匹配方法：
+				注解?	修饰符？ 返回值类型	类型声明？	方法名(参数列表)	异常列表？
 
+		坑：
+			基于注解的配置通知的执行顺序为：
+				未抛出异常：around -> before ->执行业务方法 -> around -> after ->after returning
+				抛出异常：around -> before ->执行业务方法 -> around -> after ->after throwing
+			基于XML的配置通知的执行顺序为：
+				around 与 before 受配置顺序的影响
+				after throwing、after returning 与 after 受配置顺序的影响
+			同一连接点的多个切面的执行顺序：
+				配置order属性，order越小越先执行，遵循先进后出原则
+				配置order属性的三种方式：
+					1、实现@Ordered接口
+					2、使用@Order注解
+					3、通过<aop:aspect>标签的order属性
 	-->
 
 	<!-- 服务bean -->
 	<bean id="authService" class="com.cndevxm.service.impl.AuthServiceImpl"/>
 
+	<!-- 配置introduction -->
+	<bean id="introductionServiceImpl" class="com.cndevxm.aop.IntroductionServiceImpl"/>
+
 	<!-- 提供AspectJ支持 -->
-	<!--	<aop:aspectj-autoproxy/>-->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<!-- 声明切面bean -->
 	<bean id="serviceAspect" class="com.cndevxm.aop.aspects.ServiceAspect"/>
@@ -57,10 +81,30 @@
 		<!-- 配置切面 -->
 		<aop:aspect id="serviceAspect" ref="serviceAspect" order="1">
 			<!-- 配置切入点 -->
-			<aop:pointcut id="authPointcut" expression="bean(authService)"/>
+			<!--			<aop:pointcut id="authPointcut" expression="execution(* com.cndevxm.service.AuthService.login(..))"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="within(com.cndevxm.service..*)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="this(com.cndevxm.service.BaseService)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="target(com.cndevxm.service.BaseService)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="args(java.lang.String)"/>-->
 
-			<aop:before method="doBefore" pointcut-ref="authPointcut"/>
+			<!--			<aop:pointcut id="authPointcut" expression="@args(com.cndevxm.aop.annotation.Mark)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="@target(com.cndevxm.aop.annotation.Mark)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="@within(com.cndevxm.aop.annotation.Mark)"/>-->
+			<!--			<aop:pointcut id="authPointcut" expression="@annotation(com.cndevxm.aop.annotation.Mark)"/>-->
+
+			<!--			<aop:pointcut id="authPointcut" expression="bean(authService)"/>-->
+
+			<!-- 引入接口 必须使用CGLIB -->
+			<aop:declare-parents types-matching="com.cndevxm.service.impl.*"
+								 implement-interface="com.cndevxm.aop.IntroductionService"
+								 delegate-ref="introductionServiceImpl"/>
+
+			<!-- 对引入接口进行匹配，this为代理类能够匹配全部方法，target为目标类只能匹配IntroductionService的方法 -->
+			<!--			<aop:pointcut id="authPointcut" expression="this(com.cndevxm.aop.IntroductionService)"/>-->
+			<aop:pointcut id="authPointcut" expression="target(com.cndevxm.aop.IntroductionService)"/>
+
 			<aop:around method="doAround" pointcut-ref="authPointcut"/>
+			<aop:before method="doBefore" pointcut-ref="authPointcut"/>
 			<aop:after-throwing method="doAfterThrowing" pointcut-ref="authPointcut"/>
 			<aop:after-returning method="doAfterReturning" pointcut-ref="authPointcut"/>
 			<aop:after method="doAfter" pointcut-ref="authPointcut"/>

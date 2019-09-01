@@ -1,5 +1,7 @@
 package com.cndevxm;
 
+import com.cndevxm.aop.InDto;
+import com.cndevxm.aop.IntroductionService;
 import com.cndevxm.service.AuthService;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,6 +17,15 @@ public class XMLAOPClient {
 		AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-aop.xml");
 
 		AuthService authService = (AuthService) applicationContext.getBean("authService");
-		System.out.println(authService.login("123", ""));
+		System.out.println("执行登陆操作************************");
+		System.out.println(authService.login("123", "123"));
+		System.out.println("执行登出操作************************");
+		System.out.println(authService.logout("123"));
+		System.out.println("执行登陆操作************************");
+		System.out.println(authService.login(new InDto("123", "12")));
+
+		System.out.println("加解密操作************************");
+		((IntroductionService) authService).decrypt("");
+
 	}
 }

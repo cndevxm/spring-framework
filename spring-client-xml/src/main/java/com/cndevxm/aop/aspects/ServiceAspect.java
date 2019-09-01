@@ -33,7 +33,7 @@ public class ServiceAspect {
 
 	// around
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		System.out.println("执行环绕处理前通知");
+		System.out.println("执行环绕处理前通知...");
 		String result = "";
 		try {
 			result = (String) joinPoint.proceed();
@@ -43,7 +43,6 @@ public class ServiceAspect {
 			} else {
 				result = "false";
 			}
-			return result;
 		} catch (Throwable throwable) {
 			System.out.println(throwable.getMessage());
 			System.out.println("执行环绕抛出异常通知通知...");
@@ -51,7 +50,7 @@ public class ServiceAspect {
 		} finally {
 			System.out.println("执行环绕处理后通知...");
 		}
-
+		return result;
 	}
 
 	// after
