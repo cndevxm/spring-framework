@@ -16,8 +16,11 @@
 		Introduction 介绍：为一种类型添加额外的方法或者字段，通过引入新的接口已经相应的实现
 		Target object 目标对象：被一个或者多个切面通知的对象，也称为被通知对象。由于Spring AOP是通过运行时代理实现的，因此该对象始终是一个代理对象
 		AOP proxy AOP代理：AOP框架为了实现切面功能而创建的对象。
-		Weaving 编织：将切面与其它应用程序类型或者对象连接起来创建被通知的对象，可以在编译时、加载时或运行时完成
-			Spring AOP与其他javaAOP框架一样，在运行时编织
+		Weaving 编织：将切面与其它应用程序类型或者对象连接起来创建被通知的对象
+			AspectJ在编译时编织
+			AspectJ5的LTW（Load-Time Weaving）在类加载时编织
+			Spring AOP在运行时编织
+		Advisor：与切入点表达式关联的通知对象
 
 		通知类型：
 			Before advice：在连接点之前执行的通知，不能阻止执行流流向连接点的能力（除非它引发异常）
@@ -62,6 +65,13 @@
 					1、实现@Ordered接口
 					2、使用@Order注解
 					3、通过<aop:aspect>标签的order属性
+
+		切入点：
+			正则表达式切入点：JdkRegexpMethodPointcut，RegexpMethodPointcutAdvisor
+			静态切入点：StaticMethodMatcherPointcut，StaticMethodMatcherPointcutAdvisor
+		advice：
+			Per-class advice
+			Per-instance advice
 	-->
 
 	<!-- 服务bean -->
@@ -92,7 +102,7 @@
 			<!--			<aop:pointcut id="authPointcut" expression="@within(com.cndevxm.aop.annotation.Mark)"/>-->
 			<!--			<aop:pointcut id="authPointcut" expression="@annotation(com.cndevxm.aop.annotation.Mark)"/>-->
 
-			<!--			<aop:pointcut id="authPointcut" expression="bean(authService)"/>-->
+			<aop:pointcut id="authPointcut" expression="bean(authService)"/>
 
 			<!-- 引入接口 必须使用CGLIB -->
 			<aop:declare-parents types-matching="com.cndevxm.service.impl.*"
@@ -101,16 +111,52 @@
 
 			<!-- 对引入接口进行匹配，this为代理类能够匹配全部方法，target为目标类只能匹配IntroductionService的方法 -->
 			<!--			<aop:pointcut id="authPointcut" expression="this(com.cndevxm.aop.IntroductionService)"/>-->
-			<aop:pointcut id="authPointcut" expression="target(com.cndevxm.aop.IntroductionService)"/>
+			<!--			<aop:pointcut id="authPointcut" expression="target(com.cndevxm.aop.IntroductionService)"/>-->
 
 			<aop:around method="doAround" pointcut-ref="authPointcut"/>
 			<aop:before method="doBefore" pointcut-ref="authPointcut"/>
 			<aop:after-throwing method="doAfterThrowing" pointcut-ref="authPointcut"/>
 			<aop:after-returning method="doAfterReturning" pointcut-ref="authPointcut"/>
 			<aop:after method="doAfter" pointcut-ref="authPointcut"/>
-		</aop:aspect>
 
+		</aop:aspect>
 	</aop:config>
+
+	<!-- 自定义advice -->
+	<bean id="authServiceBeforAdvice" class="com.cndevxm.aop.AuthServiceBeforAdvice"/>
+	<!-- 自定义interceptor -->
+	<bean id="authServiceInterceptor" class="com.cndevxm.aop.AuthServiceInterceptor"/>
+	<!-- 通过ProxyFactoryBean 创建代理对象 -->
+	<bean id="proxyAuthService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyTargetClass" value="true"/>
+		<property name="proxyInterfaces" value="com.cndevxm.service.AuthService"/>
+		<property name="target">
+			<bean class="com.cndevxm.service.impl.AuthServiceImpl"/>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- 此处配置可使用通配符 -->
+				<value>authServiceBeforAdvice</value>
+				<value>authServiceInterceptor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="autoProxyAuthService" class="com.cndevxm.service.impl.AuthServiceImpl"/>
+	<!-- 自动代理创建 -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>autoProxyAuthService</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>authServiceBeforAdvice</value>
+				<value>authServiceInterceptor</value>
+			</list>
+		</property>
+	</bean>
 
 
 </beans>

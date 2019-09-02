@@ -27,6 +27,16 @@ public class XMLAOPClient {
 		System.out.println("加解密操作************************");
 		((IntroductionService) authService).decrypt("");
 
+
+		System.out.println("自定义代理对象操作************************");
+		AuthService proxyAuthService = (AuthService) applicationContext.getBean("proxyAuthService");
+		proxyAuthService.login("123", "123");
+
+		System.out.println("自动代理对象操作************************");
+		AuthService autoProxyAuthService = (AuthService) applicationContext.getBean("autoProxyAuthService");
+		autoProxyAuthService.login("123", "123");
+
+
 		applicationContext.registerShutdownHook();
 	}
 }
