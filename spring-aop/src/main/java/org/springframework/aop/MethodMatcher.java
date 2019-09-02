@@ -16,9 +16,9 @@
 
 package org.springframework.aop;
 
-import java.lang.reflect.Method;
-
 import org.springframework.lang.Nullable;
+
+import java.lang.reflect.Method;
 
 /**
  * Part of a {@link Pointcut}: Checks whether the target method is eligible for advice.
@@ -46,6 +46,8 @@ import org.springframework.lang.Nullable;
  * @since 11.11.2003
  * @see Pointcut
  * @see ClassFilter
+ *
+ * AOP组件类
  */
 public interface MethodMatcher {
 
@@ -59,6 +61,8 @@ public interface MethodMatcher {
 	 * @param targetClass the target class (may be {@code null}, in which case
 	 * the candidate class must be taken to be the method's declaring class)
 	 * @return whether or not this method matches statically
+	 *
+	 * 非运行时方法匹配
 	 */
 	boolean matches(Method method, @Nullable Class<?> targetClass);
 
@@ -71,6 +75,8 @@ public interface MethodMatcher {
 	 * @return whether or not a runtime match via the 3-arg
 	 * {@link #matches(java.lang.reflect.Method, Class, Object[])} method
 	 * is required if static matching passed
+	 *
+	 * 是否为运行时
 	 */
 	boolean isRuntime();
 
@@ -88,6 +94,8 @@ public interface MethodMatcher {
 	 * @param args arguments to the method
 	 * @return whether there's a runtime match
 	 * @see MethodMatcher#matches(Method, Class)
+	 *
+	 * 运行时方法匹配
 	 */
 	boolean matches(Method method, @Nullable Class<?> targetClass, Object... args);
 

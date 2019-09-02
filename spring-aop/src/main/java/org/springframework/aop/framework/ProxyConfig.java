@@ -16,9 +16,9 @@
 
 package org.springframework.aop.framework;
 
-import java.io.Serializable;
-
 import org.springframework.util.Assert;
+
+import java.io.Serializable;
 
 /**
  * Convenience superclass for configuration used in creating proxies,
@@ -27,6 +27,8 @@ import org.springframework.util.Assert;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see AdvisedSupport
+ *
+ * 用于创建代理的配置的便捷超类
  */
 public class ProxyConfig implements Serializable {
 
@@ -34,14 +36,19 @@ public class ProxyConfig implements Serializable {
 	private static final long serialVersionUID = -8409359707199703185L;
 
 
+	// 基于JDK的动态代理或者是基于CGLIB的动态代理
 	private boolean proxyTargetClass = false;
 
+	// 是否对CGLIB创建的代理进行优化
 	private boolean optimize = false;
 
+	//
 	boolean opaque = false;
 
+	// 确定当前代理是否公开在ThreadLocal中，公开的话可通过AopContext.currentProxy ()获取
 	boolean exposeProxy = false;
 
+	// 是否对代理配置进行冻结，
 	private boolean frozen = false;
 
 

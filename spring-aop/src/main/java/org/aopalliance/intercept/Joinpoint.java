@@ -36,6 +36,8 @@ import java.lang.reflect.AccessibleObject;
  *
  * @author Rod Johnson
  * @see Interceptor
+ *
+ * 连接点
  */
 public interface Joinpoint {
 

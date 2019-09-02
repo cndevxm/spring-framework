@@ -26,6 +26,8 @@ import org.aopalliance.aop.Advice;
  *
  * @author Rod Johnson
  * @see AfterAdvice
+ *
+ * 前置通知
  */
 public interface BeforeAdvice extends Advice {
 
