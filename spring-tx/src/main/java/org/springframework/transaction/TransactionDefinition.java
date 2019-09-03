@@ -16,9 +16,9 @@
 
 package org.springframework.transaction;
 
-import java.sql.Connection;
-
 import org.springframework.lang.Nullable;
+
+import java.sql.Connection;
 
 /**
  * Interface that defines Spring-compliant transaction properties.
@@ -42,6 +42,8 @@ import org.springframework.lang.Nullable;
  * @see PlatformTransactionManager#getTransaction(TransactionDefinition)
  * @see org.springframework.transaction.support.DefaultTransactionDefinition
  * @see org.springframework.transaction.interceptor.TransactionAttribute
+ *
+ * 事务定义
  */
 public interface TransactionDefinition {
 
@@ -50,6 +52,9 @@ public interface TransactionDefinition {
 	 * Analogous to the EJB transaction attribute of the same name.
 	 * <p>This is typically the default setting of a transaction definition,
 	 * and typically defines a transaction synchronization scope.
+	 *
+	 * 传播方式
+	 * 支持当前事务，如果不存在则新建事务
 	 */
 	int PROPAGATION_REQUIRED = 0;
 
@@ -71,6 +76,9 @@ public interface TransactionDefinition {
 	 * "synchronization on actual transaction").
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setTransactionSynchronization
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#SYNCHRONIZATION_ON_ACTUAL_TRANSACTION
+	 *
+	 * 传播方式
+	 * 支持当前事务，如果不存在则以非事务方式运行
 	 */
 	int PROPAGATION_SUPPORTS = 1;
 
@@ -79,6 +87,9 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization within a {@code PROPAGATION_MANDATORY}
 	 * scope will always be driven by the surrounding transaction.
+	 *
+	 * 传播方式
+	 * 支持当前事务，如果当前事务不存在则抛出异常
 	 */
 	int PROPAGATION_MANDATORY = 2;
 
@@ -94,6 +105,9 @@ public interface TransactionDefinition {
 	 * transaction synchronizations. Existing synchronizations will be suspended
 	 * and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 传播方式
+	 * 如果当前事务存在，则重启新事务
 	 */
 	int PROPAGATION_REQUIRES_NEW = 3;
 
@@ -109,6 +123,9 @@ public interface TransactionDefinition {
 	 * {@code PROPAGATION_NOT_SUPPORTED} scope. Existing synchronizations
 	 * will be suspended and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 传播方式
+	 * 不支持当前事务，总是以非事务方式运行
 	 */
 	int PROPAGATION_NOT_SUPPORTED = 4;
 
@@ -117,6 +134,9 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization is <i>not</i> available within a
 	 * {@code PROPAGATION_NEVER} scope.
+	 *
+	 * 传播方式
+	 * 不支持当前事务，如果存在当前事务则报错
 	 */
 	int PROPAGATION_NEVER = 5;
 
@@ -130,6 +150,9 @@ public interface TransactionDefinition {
 	 * when working on a JDBC 3.0 driver. Some JTA providers might support
 	 * nested transactions as well.
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
+	 *
+	 * 传播方式
+	 * 如果当前事务存在，则执行嵌套事务
 	 */
 	int PROPAGATION_NESTED = 6;
 
@@ -138,6 +161,9 @@ public interface TransactionDefinition {
 	 * Use the default isolation level of the underlying datastore.
 	 * All other levels correspond to the JDBC isolation levels.
 	 * @see java.sql.Connection
+	 *
+	 * 隔离
+	 * 使用JDBC默认的隔离级别
 	 */
 	int ISOLATION_DEFAULT = -1;
 
@@ -149,6 +175,13 @@ public interface TransactionDefinition {
 	 * If any of the changes are rolled back, the second transaction will have
 	 * retrieved an invalid row.
 	 * @see java.sql.Connection#TRANSACTION_READ_UNCOMMITTED
+	 *
+	 * 隔离
+	 * 读未提交
+	 * 可能出现脏读、不可重复读、幻读问题
+	 * 脏读：A开启事务-A修改数据但未提交事务-B查询数据-A回滚事务，B读取到未提交的数据
+	 * 不可重复读：A查询数据与B修改数据同时进行-A事务内读取数据-B提交事务-A事务内再次查询发现数据不一致，两次读取结果不一致，重点在于update与delete
+	 * 幻读：A查询数据或者修改数据与B新增数据同时进行-A读取或者修改数据-B提交事务-A再次查询发现数据多了，以为出现了幻觉，重点在于instret
 	 */
 	int ISOLATION_READ_UNCOMMITTED = Connection.TRANSACTION_READ_UNCOMMITTED;
 
@@ -158,6 +191,12 @@ public interface TransactionDefinition {
 	 * <p>This level only prohibits a transaction from reading a row
 	 * with uncommitted changes in it.
 	 * @see java.sql.Connection#TRANSACTION_READ_COMMITTED
+	 *
+	 * 隔离
+	 * 读已提交
+	 * 可能出现不可重复读、幻读问题
+	 * 脏读解决方案：B无法看到A未提交事务的数据
+	 * Sql Server、Oracle 默认隔离级别
 	 */
 	int ISOLATION_READ_COMMITTED = Connection.TRANSACTION_READ_COMMITTED;
 
@@ -169,6 +208,12 @@ public interface TransactionDefinition {
 	 * a second transaction alters the row, and the first transaction re-reads the row,
 	 * getting different values the second time (a "non-repeatable read").
 	 * @see java.sql.Connection#TRANSACTION_REPEATABLE_READ
+	 *
+	 * 隔离
+	 * 可重复读
+	 * 可能出现幻读问题
+	 * 不可重复读解决方案：A查询数据获取快照-B修改数据事务处理（提交或者回滚）-A再进行查询快照，保证两次查询为同一个快照
+	 * Mysql 默认隔离级别
 	 */
 	int ISOLATION_REPEATABLE_READ = Connection.TRANSACTION_REPEATABLE_READ;
 
@@ -182,6 +227,11 @@ public interface TransactionDefinition {
 	 * re-reads for the same condition, retrieving the additional "phantom" row
 	 * in the second read.
 	 * @see java.sql.Connection#TRANSACTION_SERIALIZABLE
+	 *
+	 * 隔离
+	 * 序列化
+	 * 不会出现脏读、不可重复读、幻读问题
+	 * 幻读解决方案：事务一个个执行
 	 */
 	int ISOLATION_SERIALIZABLE = Connection.TRANSACTION_SERIALIZABLE;
 
@@ -189,6 +239,8 @@ public interface TransactionDefinition {
 	/**
 	 * Use the default timeout of the underlying transaction system,
 	 * or none if timeouts are not supported.
+	 *
+	 * 使用基础事务的超时时间,如果不支持则为none
 	 */
 	int TIMEOUT_DEFAULT = -1;
 
@@ -249,6 +301,8 @@ public interface TransactionDefinition {
 	 * @return {@code true} if the transaction is to be optimized as read-only
 	 * @see org.springframework.transaction.support.TransactionSynchronization#beforeCommit(boolean)
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isCurrentTransactionReadOnly()
+	 *
+	 * 只读事务
 	 */
 	boolean isReadOnly();
 
