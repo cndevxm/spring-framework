@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+>
+	<!--
+		使用Spring事务的好处是什么：
+			1、跨不同事务API的一致编程模型
+			2、支持声明式事务管理
+			3、编程式事务管理的API比JTA等复杂事务API简单
+			4、与Spring数据访问抽象的良好集成
+
+		全局事务：存在多个数据源
+		本地事务：只有一个数据源
+	-->
+
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+
+	<!-- 定义数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+
+	<!-- 实例化jdbcTemplate对象 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 定义服务 -->
+	<bean id="memberService" class="com.cndevxm.service.impl.MemberServiceImpl" autowire="byName"/>
+
+	<!-- 定义事务管理 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<!-- 定义切入点 -->
+	<aop:config>
+		<aop:pointcut id="transactionPoint" expression="execution(* com.cndevxm.service..*(..))"/>
+
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPoint"/>
+	</aop:config>
+
+	<!-- 定义事务通知 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<!-- 可配置属性：propagation、isolation、rollback-for、no-rollback-for、read-only、timeout -->
+
+			<tx:method name="insert*"/>
+			<tx:method name="update*"/>
+			<tx:method name="select*" read-only="true"/>
+			<tx:method name="delete*"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 开启注解驱动，可以使用@Transaction注解 -->
+	<tx:annotation-driven/>
+
+</beans>
