@@ -48,4 +48,14 @@ public class Member {
 	public void setIdCard(String idCard) {
 		this.idCard = idCard;
 	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+				"id='" + id + '\'' +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", idCard='" + idCard + '\'' +
+				'}';
+	}
 }

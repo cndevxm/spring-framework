@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan({"com.cndevxm.service"})
+@ComponentScan({"com.cndevxm.service", "com.cndevxm.eventAndListener"})
 @PropertySource("classpath:jdbc.properties")
 @EnableTransactionManagement
 public class DataAccessConfig {
@@ -33,7 +33,7 @@ public class DataAccessConfig {
 		return druidDataSource;
 	}
 
-	//
+	// jdbc模板
 	@Bean("jdbcTemplate")
 	public JdbcTemplate createJdbcTemplate(@Autowired DataSource dataSource) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -41,6 +41,8 @@ public class DataAccessConfig {
 		return jdbcTemplate;
 	}
 
+	// 定义事务管理器
+	@Bean("txManager")
 	public DataSourceTransactionManager createDataSourceTransactionManager(@Autowired DataSource dataSource) {
 		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
 		dataSourceTransactionManager.setDataSource(dataSource);
