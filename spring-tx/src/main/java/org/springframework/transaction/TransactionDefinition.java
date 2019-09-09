@@ -54,7 +54,8 @@ public interface TransactionDefinition {
 	 * and typically defines a transaction synchronization scope.
 	 *
 	 * 传播方式
-	 * 支持当前事务，如果不存在则新建事务
+	 * 强制执行物理事务
+	 * 支持外部事务，如果不存在则新建事务，默认使用外部事务的隔离、超时、只读设置，使用同一个物理事务
 	 */
 	int PROPAGATION_REQUIRED = 0;
 
@@ -107,7 +108,7 @@ public interface TransactionDefinition {
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
 	 *
 	 * 传播方式
-	 * 如果当前事务存在，则重启新事务
+	 * 如果外部事务存在，则重新创建事务，使用自己的隔离级别、超时、只读设置，使用不同的物理事务可以独立提交或者回滚
 	 */
 	int PROPAGATION_REQUIRES_NEW = 3;
 
@@ -152,7 +153,7 @@ public interface TransactionDefinition {
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
 	 *
 	 * 传播方式
-	 * 如果当前事务存在，则执行嵌套事务
+	 * 如果当前外部事务存在，则执行嵌套事务，嵌套事务的回滚不会影响外部事务
 	 */
 	int PROPAGATION_NESTED = 6;
 

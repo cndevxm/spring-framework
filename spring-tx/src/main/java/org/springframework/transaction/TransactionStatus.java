@@ -36,7 +36,7 @@ import java.io.Flushable;
  * @see org.springframework.transaction.support.TransactionCallback#doInTransaction
  * @see org.springframework.transaction.interceptor.TransactionInterceptor#currentTransactionStatus()
  *
- * 事务的表示状态
+ * 事务的状态
  */
 public interface TransactionStatus extends SavepointManager, Flushable {
 
@@ -70,6 +70,8 @@ public interface TransactionStatus extends SavepointManager, Flushable {
 	 * where the actual commit/rollback decision is made by the container.
 	 * @see org.springframework.transaction.support.TransactionCallback#doInTransaction
 	 * @see org.springframework.transaction.interceptor.TransactionAttribute#rollbackOn
+	 *
+	 * 事务回滚
 	 */
 	void setRollbackOnly();
 

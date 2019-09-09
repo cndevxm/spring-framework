@@ -16,19 +16,14 @@
 
 package org.springframework.transaction.support;
 
-import java.lang.reflect.UndeclaredThrowableException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.*;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * Template class that simplifies programmatic transaction demarcation and
@@ -60,6 +55,9 @@ import org.springframework.util.Assert;
  * @see #execute
  * @see #setTransactionManager
  * @see org.springframework.transaction.PlatformTransactionManager
+ *
+ * 事务模板，线程安全
+ *
  */
 @SuppressWarnings("serial")
 public class TransactionTemplate extends DefaultTransactionDefinition

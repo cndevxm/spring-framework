@@ -16,15 +16,10 @@
 
 package org.springframework.transaction.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.transaction.TransactionDefinition;
+
+import java.lang.annotation.*;
 
 /**
  * Describes a transaction attribute on an individual method or on a class.
@@ -55,6 +50,9 @@ import org.springframework.transaction.TransactionDefinition;
  * @see org.springframework.transaction.interceptor.TransactionAttribute
  * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute
  * @see org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
+ *
+ * 事务管理的标识注解
+ * 可通过此注解生成注解，来指定不同的事务管理器
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -85,6 +83,8 @@ public @interface Transactional {
 	 * The transaction propagation type.
 	 * <p>Defaults to {@link Propagation#REQUIRED}.
 	 * @see org.springframework.transaction.interceptor.TransactionAttribute#getPropagationBehavior()
+	 *
+	 * 传播
 	 */
 	Propagation propagation() default Propagation.REQUIRED;
 
@@ -99,6 +99,8 @@ public @interface Transactional {
 	 * isolation level.
 	 * @see org.springframework.transaction.interceptor.TransactionAttribute#getIsolationLevel()
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setValidateExistingTransaction
+	 *
+	 * 隔离
 	 */
 	Isolation isolation() default Isolation.DEFAULT;
 
@@ -109,6 +111,8 @@ public @interface Transactional {
 	 * {@link Propagation#REQUIRES_NEW} since it only applies to newly started
 	 * transactions.
 	 * @see org.springframework.transaction.interceptor.TransactionAttribute#getTimeout()
+	 *
+	 * 超时
 	 */
 	int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;
 

@@ -31,6 +31,8 @@ public enum TransactionPhase {
 	/**
 	 * Fire the event before transaction commit.
 	 * @see TransactionSynchronization#beforeCommit(boolean)
+	 *
+	 * 事务提交前
 	 */
 	BEFORE_COMMIT,
 
@@ -41,6 +43,8 @@ public enum TransactionPhase {
 	 * (and not in {@link TransactionSynchronization#afterCommit()}).
 	 * @see TransactionSynchronization#afterCompletion(int)
 	 * @see TransactionSynchronization#STATUS_COMMITTED
+	 *
+	 * 事务提交后
 	 */
 	AFTER_COMMIT,
 
@@ -50,6 +54,8 @@ public enum TransactionPhase {
 	 * therefore executes in the same after-completion sequence of events.
 	 * @see TransactionSynchronization#afterCompletion(int)
 	 * @see TransactionSynchronization#STATUS_ROLLED_BACK
+	 *
+	 * 事务回滚后
 	 */
 	AFTER_ROLLBACK,
 
@@ -59,6 +65,8 @@ public enum TransactionPhase {
 	 * {@link #AFTER_ROLLBACK} to intercept transaction commit
 	 * or rollback, respectively.
 	 * @see TransactionSynchronization#afterCompletion(int)
+	 *
+	 * 事务完工后
 	 */
 	AFTER_COMPLETION
 

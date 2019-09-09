@@ -27,6 +27,8 @@ import org.springframework.transaction.TransactionStatus;
  * @author Juergen Hoeller
  * @since 28.03.2003
  * @see TransactionTemplate
+ *
+ * 不带返回值的事务
  */
 public abstract class TransactionCallbackWithoutResult implements TransactionCallback<Object> {
 

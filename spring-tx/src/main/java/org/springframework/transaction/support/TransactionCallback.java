@@ -32,6 +32,8 @@ import org.springframework.transaction.TransactionStatus;
  * @since 17.03.2003
  * @see TransactionTemplate
  * @see CallbackPreferringPlatformTransactionManager
+ *
+ * 带返回值的事务
  */
 @FunctionalInterface
 public interface TransactionCallback<T> {
