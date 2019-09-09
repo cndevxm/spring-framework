@@ -1,4 +1,4 @@
-package com.cndevxm.event;
+package com.cndevxm.eventAndListener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;

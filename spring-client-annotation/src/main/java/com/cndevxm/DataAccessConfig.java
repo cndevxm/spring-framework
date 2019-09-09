@@ -19,6 +19,10 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DataAccessConfig {
 
+	/**
+	 * 配置编程式事务流程
+	 */
+
 	// 定义数据源
 	@Bean("dataSorce")
 	public DataSource createDataSource(@Value("${jdbc.url}") String url, @Value("${jdbc.username}") String username, @Value("${jdbc.password}") String password) {

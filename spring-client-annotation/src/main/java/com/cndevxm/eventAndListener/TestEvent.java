@@ -1,4 +1,4 @@
-package com.cndevxm.event;
+package com.cndevxm.eventAndListener;
 
 import org.springframework.context.ApplicationEvent;
 

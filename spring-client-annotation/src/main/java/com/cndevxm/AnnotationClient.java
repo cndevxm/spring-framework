@@ -2,8 +2,8 @@ package com.cndevxm;
 
 import com.cndevxm.entity.Bus;
 import com.cndevxm.entity.Department;
-import com.cndevxm.event.BusEvent;
-import com.cndevxm.event.Publisher;
+import com.cndevxm.eventAndListener.BusEvent;
+import com.cndevxm.eventAndListener.Publisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Date;
