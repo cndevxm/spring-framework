@@ -14,6 +14,6 @@ public interface MemberService {
 
 	List<Member> selectMember(Member member);
 
-	boolean insMember(Member member);
+	boolean insMember(Member member) throws Exception;
 
 }

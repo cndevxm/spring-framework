@@ -18,6 +18,12 @@
 
 		全局事务：存在多个数据源
 		本地事务：只有一个数据源
+
+		spring 事务的本质：TransactionInterceptor（MethodInterceptor）与PlatformTransactionManager来驱动事务环绕方法调用
+			TransactionInterceptor负责对方法的拦截
+			PlatformTransactionManager负责开启、提交、回滚事务供TransactionInterceptor调用
+
+		声明式事务回滚默认只对RuntimeException异常与其子类或者error进行回滚
 	-->
 
 	<context:property-placeholder location="classpath:jdbc.properties"/>
@@ -37,14 +43,14 @@
 	<!-- 定义服务 -->
 	<bean id="memberService" class="com.cndevxm.service.impl.MemberServiceImpl" autowire="byName"/>
 
-	<!-- 定义事务管理 -->
+	<!-- 定义事务管理 定义事务的底层支持 如果beanId为transactionManager 则不需要配置<tx:advice>的transaction-manager属性 -->
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
 	<!-- 定义切入点 -->
 	<aop:config>
-		<aop:pointcut id="transactionPoint" expression="execution(* com.cndevxm.service..*(..))"/>
+		<aop:pointcut id="transactionPoint" expression="execution(* com.cndevxm.service.MemberService.*(..))"/>
 
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPoint"/>
 	</aop:config>
@@ -52,16 +58,38 @@
 	<!-- 定义事务通知 -->
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
-			<!-- 可配置属性：propagation、isolation、rollback-for、no-rollback-for、read-only、timeout -->
+			<!-- 可配置属性：
+				propagation：默认为REQUIRED
+				isolation：默认为DEFAULT
+				rollback-for：默认为RuntimeException
+				no-rollback-for
+				read-only
+				timeout：默认超时
+			-->
 
 			<tx:method name="insert*"/>
 			<tx:method name="update*"/>
 			<tx:method name="select*" read-only="true"/>
 			<tx:method name="delete*"/>
+			<tx:method name="ins*"/>
 		</tx:attributes>
 	</tx:advice>
 
 	<!-- 开启注解驱动，可以使用@Transaction注解 -->
-	<tx:annotation-driven/>
+	<tx:annotation-driven transaction-manager="txManager"/>
+
+	<!--
+		坑：
+			尽量将@Transaction注解注释到具体类的具体方法上以避免基于CGLIB或者基于AspectJ的代理无法识别的情况产生
+	 		禁止自调用，因为不走代理，所以无法生效
+	 		代理对象必须完全初始化才能被调用
+	 		方法级别的事务定义要高于类级别的事务定义
+	 -->
+
+	<!-- 编程式事务管理 -->
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="txManager"/>
+	</bean>
+	<bean id="orgService" class="com.cndevxm.service.impl.OrgServiceImpl" autowire="byName"/>
 
 </beans>

@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 
 	// 未添加声明式事务管理会首先执行第一条sql，再抛出异常
 	@Override
-	public boolean insMember(Member member) {
+	public boolean insMember(Member member) throws Exception {
 		String insertSql = "insert into member(id,name,age,idCard) values(uuid(),?,?,?)";
 		jdbcTemplate.update(insertSql, member.getName(), member.getAge(), member.getIdCard());
 		if (0 == 0) {

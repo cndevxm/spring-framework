@@ -2,8 +2,8 @@ package com.cndevxm;
 
 import com.cndevxm.entity.Bus;
 import com.cndevxm.entity.Department;
-import com.cndevxm.event.BusEvent;
-import com.cndevxm.event.Publisher;
+import com.cndevxm.eventAndListener.BusEvent;
+import com.cndevxm.eventAndListener.Publisher;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 

@@ -1,4 +1,4 @@
-package com.cndevxm.event;
+package com.cndevxm.eventAndListener;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;

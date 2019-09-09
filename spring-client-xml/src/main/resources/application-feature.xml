@@ -48,21 +48,21 @@
 	<!-- 事件定义与发布 -->
 	<!-- 系统事件监听 -->
 	<bean id="refreshedEventListener" name="refreshedEventListener"
-		  class="com.cndevxm.event.ApplicationEventListener$ContextRefreshedEventListener"/>
+		  class="com.cndevxm.eventAndListener.ApplicationEventListener$ContextRefreshedEventListener"/>
 	<bean id="closedEventListener" name="closedEventListener"
-		  class="com.cndevxm.event.ApplicationEventListener$ContextClosedEventListener"/>
+		  class="com.cndevxm.eventAndListener.ApplicationEventListener$ContextClosedEventListener"/>
 	<bean id="startedEventListener" name="startedEventListener"
-		  class="com.cndevxm.event.ApplicationEventListener$ContextStartedEventListener"/>
+		  class="com.cndevxm.eventAndListener.ApplicationEventListener$ContextStartedEventListener"/>
 	<bean id="stoppedEventListener" name="stoppedEventListener"
-		  class="com.cndevxm.event.ApplicationEventListener$ContextStoppedEventListener"/>
+		  class="com.cndevxm.eventAndListener.ApplicationEventListener$ContextStoppedEventListener"/>
 
 	<!-- 自定义事件 继承ApplicationEvent类 -->
 	<!-- 自定义监听 实现ApplicationListener接口 -->
-	<bean id="busListener" name="busListener" class="com.cndevxm.event.BusListener"/>
-	<bean id="busListener1" name="busListener1" class="com.cndevxm.event.BusListener1"/>
-	<bean id="busListener2" name="busListener2" class="com.cndevxm.event.BusListener2"/>
+	<bean id="busListener" name="busListener" class="com.cndevxm.eventAndListener.BusListener"/>
+	<bean id="busListener1" name="busListener1" class="com.cndevxm.eventAndListener.BusListener1"/>
+	<bean id="busListener2" name="busListener2" class="com.cndevxm.eventAndListener.BusListener2"/>
 	<!-- 自定义发布 通过applicationEventPublisher发布事件-->
-	<bean id="publisher" name="publisher" class="com.cndevxm.event.Publisher"/>
+	<bean id="publisher" name="publisher" class="com.cndevxm.eventAndListener.Publisher"/>
 
 	<!-- 开启异步 -->
 	<task:executor id="myexecutor" pool-size="10"/>
