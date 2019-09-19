@@ -16,13 +16,13 @@
 
 package org.springframework.jdbc.datasource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Abstract base class for Spring's {@link javax.sql.DataSource}
@@ -35,6 +35,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Juergen Hoeller
  * @since 07.05.2003
  * @see DriverManagerDataSource
+ *
+ * 集成DataDource的抽象基类
  */
 public abstract class AbstractDataSource implements DataSource {
 

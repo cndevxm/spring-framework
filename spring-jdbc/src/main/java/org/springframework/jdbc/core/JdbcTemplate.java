@@ -84,6 +84,9 @@ import java.util.*;
  * @see RowCallbackHandler
  * @see RowMapper
  * @see org.springframework.jdbc.support.SQLExceptionTranslator
+ *
+ * jdbc模板类
+ * 线程安全 有状态类
  */
 public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 

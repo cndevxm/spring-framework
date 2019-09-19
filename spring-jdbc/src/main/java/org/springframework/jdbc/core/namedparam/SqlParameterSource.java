@@ -38,6 +38,8 @@ import org.springframework.lang.Nullable;
  * @see NamedParameterJdbcTemplate
  * @see MapSqlParameterSource
  * @see BeanPropertySqlParameterSource
+ *
+ * sql参数资源
  */
 public interface SqlParameterSource {
 
