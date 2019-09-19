@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+@SuppressWarnings("rawtypes")
 public class House {
 
 	// 地址

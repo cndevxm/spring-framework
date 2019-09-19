@@ -2,7 +2,9 @@ package com.cndevxm.aop;
 
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
 
+@SuppressWarnings("serial")
 public class IntroductionServiceImpl extends DelegatingIntroductionInterceptor implements IntroductionService {
+
 
 	@Override
 	public String decrypt(String str) {

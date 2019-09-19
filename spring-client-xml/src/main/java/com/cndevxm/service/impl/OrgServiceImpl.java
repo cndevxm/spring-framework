@@ -3,6 +3,7 @@ package com.cndevxm.service.impl;
 import com.cndevxm.entity.Org;
 import com.cndevxm.service.OrgService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -12,6 +13,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -122,6 +124,24 @@ public class OrgServiceImpl implements OrgService {
 			}
 		});
 		return list;
+	}
+
+	@Override
+	public void batchUpdate(List<Org> orgs) {
+		String updateSql = " update org set orgName = ? where rogId = ?";
+		jdbcTemplate.batchUpdate(updateSql, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				ps.setString(1, orgs.get(i).getOrgId());
+				ps.setString(2, orgs.get(i).getOrgName());
+			}
+
+			@Override
+			public int getBatchSize() {
+				return orgs.size();
+			}
+		});
 	}
 
 }

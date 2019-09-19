@@ -14,4 +14,6 @@ public interface OrgService {
 
 	List<Org> selectOrg(Org org);
 
+	void batchUpdate(List<Org> orgs);
+
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+		 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+    http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+		 id="WebApp_ID" version="3.1">
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- spring 容器的配置信息 -->
+		<param-value>classpath:/web/application-context.xml</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>app</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<!-- spring mvc相关类的配置信息 -->
+			<param-value>classpath:/web/application-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>app</servlet-name>
+		<!--
+		 	这里可以配置/也可以配置/*
+		 	/	匹配路径型请求
+		 	/*	匹配所有类型请求
+		 -->
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+
+</web-app>

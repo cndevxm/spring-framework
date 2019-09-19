@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MemberServiceImpl implements MemberService {
 
 	private JdbcTemplate jdbcTemplate;

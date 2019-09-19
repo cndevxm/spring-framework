@@ -1,5 +1,6 @@
 package com.cndevxm.closes;
 
+@SuppressWarnings("try")
 public class MyClose2 implements AutoCloseable {
 
 	@Override

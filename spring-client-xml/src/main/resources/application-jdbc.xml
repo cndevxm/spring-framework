@@ -92,4 +92,17 @@
 	</bean>
 	<bean id="orgService" class="com.cndevxm.service.impl.OrgServiceImpl" autowire="byName"/>
 
+	<!-- spring JDBC 中 spring与me的职责划分
+		定义连接参数						me
+		打开连接						spring
+		指定sql语句						me
+		声明参数并提供参数值				me
+		准备并执行语句					spring
+		对结果集设置循环以遍历结果		spring
+		为每个循环进行处理				me
+		处理任何异常						spring
+		处理事务						spring
+		关闭连接、语句和结果集			spring
+	 -->
+
 </beans>

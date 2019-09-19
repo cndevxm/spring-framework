@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEvent;
 
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class BusEvent extends ApplicationEvent {
 
 	private String busName;

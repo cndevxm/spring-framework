@@ -6,6 +6,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
+@SuppressWarnings("rawtypes")
 public class CglibProxy implements MethodInterceptor {
 	private Enhancer enhancer = new Enhancer();
 

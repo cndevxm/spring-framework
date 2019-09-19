@@ -15,7 +15,7 @@ public class XMLDataAccessClient {
 	public static void main(String[] args) throws Exception {
 
 		// 基于类路径的xml文件配置
-		AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-dataaccess.xml");
+		AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-jdbc.xml");
 
 		// 声明式事务
 //		MemberService memberService = (MemberService) applicationContext.getBean("memberService");
