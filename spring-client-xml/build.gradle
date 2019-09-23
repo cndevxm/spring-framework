@@ -17,6 +17,8 @@ gretty {
     // 'jetty7', 'jetty8', 'jetty9', 'jetty93', 'jetty94', 'tomcat7', 'tomcat8'
     servletContainer = 'jetty9'
     contextPath = 'spring'
+
+    loggingLevel = "DEBUG"  //日志级别
 }
 
 group 'org.springframework'
