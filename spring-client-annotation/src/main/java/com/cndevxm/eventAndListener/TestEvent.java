@@ -2,6 +2,7 @@ package com.cndevxm.eventAndListener;
 
 import org.springframework.context.ApplicationEvent;
 
+@SuppressWarnings("serial")
 public class TestEvent extends ApplicationEvent {
 
 	private String eventName;

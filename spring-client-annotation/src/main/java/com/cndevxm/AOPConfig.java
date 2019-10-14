@@ -13,6 +13,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 // 添加AspectJ的支持
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan({"com.cndevxm.service", "com.cndevxm.aop"})
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class AOPConfig {
 
 	// 基于ProxyFactoryBean生成代理对象

@@ -20,6 +20,7 @@ import java.util.HashMap;
 @EnableAsync
 // 导入Spring的配置文件
 //@ImportResource
+@SuppressWarnings({"rawtypes", "unchecked", "serial"})
 public class AppConfig {
 
 	// 配置自定义propertyEditor

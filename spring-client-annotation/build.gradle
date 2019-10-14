@@ -1,10 +1,30 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "gradle.plugin.org.akhikhl.gretty:gretty:2.0.0"
+    }
+}
+
 plugins {
-    id 'java'
+    id 'org.akhikhl.gretty' version "2.0.0"
+}
+
+// 设置gretty参数
+gretty {
+    httpPort = 8081
+    // 'jetty7', 'jetty8', 'jetty9', 'jetty93', 'jetty94', 'tomcat7', 'tomcat8'
+    servletContainer = 'jetty9'
+    contextPath = 'spring'
+
+    loggingLevel = "DEBUG"  //日志级别
 }
 
 group 'org.springframework'
 version '5.0.13.BUILD-SNAPSHOT'
 
+// jdk版本
 sourceCompatibility = 1.8
 
 repositories {
@@ -14,13 +34,16 @@ repositories {
 dependencies {
     compile project(':spring-context')
     compile project(':spring-web')
+    compile project(':spring-webmvc')
     compile project(':spring-tx')
     compile project(':spring-jdbc')
+    compile project(':spring-orm')
     testCompile group: 'junit', name: 'junit', version: '4.12'
     optional("javax.servlet:javax.servlet-api:3.1.0")
     optional("javax.inject:javax.inject:1")
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    compile group: 'cglib', name: 'cglib', version: '3.2.5'
     compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.4'
     compile group: 'com.alibaba', name: 'druid', version: '1.1.10'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'

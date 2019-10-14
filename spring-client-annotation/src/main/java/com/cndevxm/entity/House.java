@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.Set;
 
 @Component
+@SuppressWarnings("rawtypes")
 public class House {
 
 	@Autowired

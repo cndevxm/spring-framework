@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component("modelHouse")
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class ModelHouse {
 
 	@Autowired

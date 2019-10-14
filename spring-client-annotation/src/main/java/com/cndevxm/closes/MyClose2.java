@@ -3,6 +3,7 @@ package com.cndevxm.closes;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("try")
 public class MyClose2 implements AutoCloseable {
 
 	@Override
