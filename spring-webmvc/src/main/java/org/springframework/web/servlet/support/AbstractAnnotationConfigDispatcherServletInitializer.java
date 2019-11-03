@@ -40,6 +40,9 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * @author Arjen Poutsma
  * @author Chris Beams
  * @since 3.2
+ *
+ * 基于java配置的spring
+ * 官方建议这样做
  */
 public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 		extends AbstractDispatcherServletInitializer {

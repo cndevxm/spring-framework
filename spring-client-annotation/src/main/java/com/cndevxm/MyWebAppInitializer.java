@@ -6,6 +6,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  * web初始化器
+ *
+ * 虽然可以直接实现WebApplicationInitializer 接口 但是我们不建议这样做
+ * 使用以下方式是官方推荐的
  */
 @SuppressWarnings("rawtypes")
 public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

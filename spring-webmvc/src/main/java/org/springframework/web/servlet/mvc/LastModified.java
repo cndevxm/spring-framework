@@ -39,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
  * @see SimpleControllerHandlerAdapter
  * @see org.springframework.web.HttpRequestHandler
  * @see HttpRequestHandlerAdapter
+ *
+ * 获取请求的最后修改时间
  */
 public interface LastModified {
 
